@@ -1,0 +1,7 @@
+.recipeList {
+  list-style: none;
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  height: 450px;
+  overflow-y: scroll;
+}
