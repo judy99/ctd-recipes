@@ -1,46 +1,41 @@
 // TODO
-import styles from '../App.module.css';
+import { useParams } from 'react-router';
+import styles from './RecipePage.module.css';
 import RecipeList from '../features/RecipeList/RecipeList';
 import Button from '../shared/Button';
 // import RecipeForm from '../features/RecipeForm';
 import RecipeViewForm from '../features/RecipeViewForm';
 
-export default function RecipePage({
-  recipeState,
-  // dispatch,
-  // todoActions,
-  // addTodo,
-  // completeTodo,
-  // updateTodo,
-  // isSearch,
-}) {
+export default function RecipePage({ recipes }) {
+  console.log('recipes::::', recipes);
+  const { id } = useParams();
+  const recipe = recipes?.find((r) => r.id == id);
   return (
     <>
-      <RecipeViewForm recipe={recipeState.recipes} />
-      {recipeState?.errorMessage.length ? (
-        <div className={styles.errorWrapper}>
-          <div className={styles.error}>
-            <p>Error: {recipeState?.errorMessage}</p>
-
-            <Button title="Dismiss" onClickHandler={() => {}} />
-            {/* <button
-              className="formButton"
-              type="button"
-              onClick={() => dispatch({ type: todoActions.clearError })}
-            >
-              Dismiss
-            </button> */}
-          </div>
+      {/* 1 */}
+      <div className={styles.recipeHeader}>
+        <div
+          style={{
+            width: '300px',
+            height: '300px',
+            backgroundColor: '#ccc',
+            backgroundImage: `url(${recipe?.photo})`,
+          }}
+        ></div>
+        <div className={styles.recipeTitle}>
+          <h3>{recipe?.category}</h3>
+          <h2>{recipe?.title}</h2>
         </div>
-      ) : null}
-      {/* <RecipeForm onAddTodo={addTodo} isSaving={recipeState.isSaving} /> */}
-      <RecipeList
-        recipeList={recipeState.recipes}
-        // onCompleteTodo={completeTodo}
-        // onUpdateTodo={updateTodo}
-        // isLoading={recipeState}
-        // isSearch={isSearch}
-      />
+        <Button title="Edit" />
+      </div>
+      {/* 2 */}
+      <div className={styles.recipeMain}>
+        <div className={styles.recipeIngredients}>{recipe?.ingredients}</div>
+        <div className={styles.recipeMethod}>
+          <p>{recipe?.method}</p>
+          <p>{recipe?.notes}</p>
+        </div>
+      </div>
     </>
   );
 }

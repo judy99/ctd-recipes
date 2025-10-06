@@ -1,0 +1,25 @@
+.recipeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.recipeMain {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recipeIngredients {
+  width: 300px;
+}
+
+.recipeTitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.recipeMethod {
+  display: flex;
+  flex-direction: column;
+}

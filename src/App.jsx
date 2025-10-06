@@ -8,8 +8,12 @@ import {
 } from 'react';
 import Header from './shared/Header';
 import styles from './App.module.css';
-import RecipesPage from './pages/RecipePage';
+import HomePage from './pages/HomePage';
+import RecipePage from './pages/RecipePage';
 import { records } from './data';
+import Modal from './features/Modal/Modal';
+import RecipeForm from './features/RecipeForm/RecipeForm';
+import { Route, Routes } from 'react-router';
 
 const initialRecipesState = {
   recipes: records,
@@ -23,6 +27,7 @@ const initialRecipesState = {
 function App() {
   // const [recipeState, dispatch] = useReducer(recipesReducer, initialRecipesState);
   const [title, setTitle] = useState('Home');
+  const [isModalOpen, setModalOpen] = useState(false);
   // const location = useLocation();
 
   // const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -84,8 +89,40 @@ function App() {
     <div className={styles.appWrapper}>
       <Header title={title} />
       <main>
-        <RecipesPage recipeState={initialRecipesState} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                recipeState={initialRecipesState}
+                isModalOpen={isModalOpen}
+                setModalOpen={setModalOpen}
+              />
+
+              // <TodosPage
+              //   todoState={todoState}
+              //   dispatch={dispatch}
+              //   todoActions={todoActions}
+              //   addTodo={addTodo}
+              //   completeTodo={completeTodo}
+              //   updateTodo={updateTodo}
+              //   isSearch={todoState.queryString}
+              // />
+            }
+          />
+          <Route
+            path="/recipe/:id"
+            element={<RecipePage recipes={initialRecipesState.recipes} />}
+          />
+
+          {/* <Route path="/about" element={<About />} /> */}
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
       </main>
+      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+        <h2>Create a recipe</h2>
+        <RecipeForm />
+      </Modal>
       <footer>
         <p>
           &copy; <span className={styles.currentYear}>{currentYear}</span>

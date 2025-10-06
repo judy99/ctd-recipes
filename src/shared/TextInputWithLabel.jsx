@@ -1,4 +1,4 @@
-import styles from './textInputWithLabel.module.css'
+import styles from './textInputWithLabel.module.css';
 function TextInputWithLabel({
   elementId,
   labelText = '',
@@ -9,7 +9,9 @@ function TextInputWithLabel({
 }) {
   return (
     <div className={styles.textInputWithLabel}>
-      <label htmlFor={elementId}>{labelText}</label>
+      <label htmlFor={elementId} className={labelText.length && styles.label}>
+        {labelText}
+      </label>
       <input
         type="text"
         id={elementId}
@@ -22,4 +24,4 @@ function TextInputWithLabel({
   );
 }
 
-export default TextInputWithLabel
+export default TextInputWithLabel;

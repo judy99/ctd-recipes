@@ -1,5 +1,6 @@
 // TODO
 import React from 'react';
+import { Link } from 'react-router';
 import styles from './RecipeListItem.module.css';
 
 function RecipeListItem({ recipe, onViewRecipe, onUpdateRecipe }) {
@@ -39,8 +40,10 @@ function RecipeListItem({ recipe, onViewRecipe, onUpdateRecipe }) {
         </div>
       </div>
       <div className={styles.recipe__post}>
-        {/* <div className="recipe__date">{props.card?.publishedAt}</div> */}
-        <h3 className={styles.recipe__title}>{recipe.title}</h3>
+        <Link to={`/recipe/${recipe.id}`}>
+          {/* <div className="recipe__date">{props.card?.publishedAt}</div> */}
+          <h3 className={styles.recipe__title}>{recipe.title}</h3>
+        </Link>
         {/* <p className="recipe__text">{recipe.content}</p> */}
         <span className={`${styles.category} ${styles[recipe.category]}`}>
           {recipe.category}

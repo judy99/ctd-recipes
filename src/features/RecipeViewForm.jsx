@@ -5,7 +5,7 @@ import TextInputWithLabel from '../shared/TextInputWithLabel';
 import Button from '../shared/Button';
 import styles from './RecipeViewForm.module.css';
 
-const RecipeViewForm = ({ recipe }) => {
+const RecipeViewForm = ({ recipe, setModalOpen, isModalOpen }) => {
   const [localQueryString, setLocalQueryString] = useState(recipe?.queryString);
 
   // const handleChangeSortField = (e) => {
@@ -88,7 +88,12 @@ const RecipeViewForm = ({ recipe }) => {
         </div>
       </form>
       <div>
-        <Button title="Add Recipe" />
+        <Button
+          title="Add Recipe"
+          onClickHandler={() => {
+            setModalOpen(true);
+          }}
+        />
       </div>
     </div>
   );
