@@ -1,7 +1,8 @@
 .recipeList {
   list-style: none;
   margin-bottom: 1rem;
-  padding-left: 10px;
-  height: 450px;
+  padding-left: 0px;
   overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
 }

@@ -1,5 +1,7 @@
+// TODO
 import RecipeListItem from './RecipeListItem';
 import styles from './RecipeList.module.css';
+import Pagination from '../Pagination/Pagination';
 // import { useSearchParams, useNavigate } from 'react-router';
 // import Pagination from '../Pagination/Pagination';
 // import { useEffect } from 'react';
@@ -57,12 +59,12 @@ function RecipeList({
           />
         ))}
       </ul>
-      {/* <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        setSearchParams={setSearchParams}
-        searchParams={searchParams}
-      /> */}
+      <Pagination
+      // totalPages={totalPages}
+      // currentPage={currentPage}
+      // setSearchParams={setSearchParams}
+      // searchParams={searchParams}
+      />
     </>
   ) : (
     // if recipe list is empty

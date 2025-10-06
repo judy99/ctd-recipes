@@ -1,8 +1,8 @@
+// TODO
 import { useState, useEffect } from 'react';
 import TextInputWithLabel from '../shared/TextInputWithLabel';
 // import { actions as todoActions } from '../reducers/todos.reducer';
 import Button from '../shared/Button';
-// import styled from 'styled-components';
 import styles from './RecipeViewForm.module.css';
 
 const RecipeViewForm = ({ recipe }) => {
@@ -73,8 +73,23 @@ const RecipeViewForm = ({ recipe }) => {
               <option value="desc">Descending</option>
             </select>
           </div>
+          <div className={styles.sort}>
+            <label htmlFor="filterCategory">Meal Type: </label>
+            <select
+              name="filterCategory"
+              // onChange={handleChangeSortDir}
+              value={recipe.categoryFilter}
+            >
+              <option value="dinner">Dinner</option>
+              <option value="lunch">Lunch</option>
+              <option value="dessert">Dessert</option>
+            </select>
+          </div>
         </div>
       </form>
+      <div>
+        <Button title="Add Recipe" />
+      </div>
     </div>
   );
 };

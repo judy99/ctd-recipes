@@ -1,43 +1,55 @@
-// import { useEffect, useState } from 'react';
-// import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import Button from '../../shared/Button';
+// TODO
+import React from 'react';
 import styles from './RecipeListItem.module.css';
 
 function RecipeListItem({ recipe, onViewRecipe, onUpdateRecipe }) {
-  // const [isEditing, setIsEditing] = useState(false);
-  // const [workingTitle, setWorkingTitle] = useState(todo.title);
+  // const [saved, setSaved] = React.useState(false);
+  // const [deleted, setDeleted] = React.useState(false);
 
-  // const handleCancel = () => {
-  //   setWorkingTitle(todo.title);
-  //   setIsEditing(false);
+  // const onSave = () => {
+  //   console.log("props on card***", props.card);
+  //   if (props.loggedIn) {
+  //     setSaved(!saved);
+  //     props.onCardSave(props.card);
+  //   }
   // };
 
-  // const handleEdit = (e) => {
-  //   setWorkingTitle(e.target.value);
+  // const onDelete = (e) => {
+  //   e.stopPropagation();
+  //   if (props.loggedIn) {
+  //     setDeleted(true);
+  //   }
   // };
-
-  // const handleUpdate = (e) => {
-  //   if (!isEditing) return;
-  //   e.preventDefault();
-  //   onUpdateTodo({ ...todo, title: workingTitle });
-  //   setIsEditing(false);
-  // };
-
-  // const handleChange = () => {
-  //   onCompleteTodo(todo.id);
-  // };
-
-  // useEffect(() => {
-  //   setWorkingTitle(todo.title);
-  // }, [todo]);
 
   return (
-    <li className={styles.itemWrapper}>
-      <div className={styles?.itemTitle}>{recipe.title}</div>
-      {/* go to the Recipe Page */}
-      <Button title="View" onClickHandler={onViewRecipe} />
-      {/* open the Recipe Update Form */}
-      <Button title="Update" onClickHandler={onUpdateRecipe} />
+    <li className={styles.recipe__item}>
+      <div
+        className={styles.recipe__tools}
+        style={{ backgroundImage: `url(${recipe?.photo})` }}
+      >
+        <div className="recipe__tools-action">
+          {/* {props.isMainPage && (
+            <button
+              className={`btn-news news__icon-save ${
+                saved ? 'news__icon-save_marked' : 'news__icon-save_normal'
+              }`}
+              onClick={onSave}
+            ></button>
+          )} */}
+        </div>
+      </div>
+      <div className={styles.recipe__post}>
+        {/* <div className="recipe__date">{props.card?.publishedAt}</div> */}
+        <h3 className={styles.recipe__title}>{recipe.title}</h3>
+        {/* <p className="recipe__text">{recipe.content}</p> */}
+        <span className={`${styles.category} ${styles[recipe.category]}`}>
+          {recipe.category}
+        </span>
+
+        <a href={recipe.source} className={styles.recipe__source}>
+          {recipe.source}
+        </a>
+      </div>
     </li>
   );
 }
