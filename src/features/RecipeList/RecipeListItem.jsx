@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './RecipeListItem.module.css';
+import CategoryBadge from '../../shared/CategoryBadge';
 
 function RecipeListItem({ recipe, onViewRecipe, onUpdateRecipe }) {
   // const [saved, setSaved] = React.useState(false);
@@ -44,11 +45,7 @@ function RecipeListItem({ recipe, onViewRecipe, onUpdateRecipe }) {
           {/* <div className="recipe__date">{props.card?.publishedAt}</div> */}
           <h3 className={styles.recipe__title}>{recipe.title}</h3>
         </Link>
-        {/* <p className="recipe__text">{recipe.content}</p> */}
-        <span className={`${styles.category} ${styles[recipe.category]}`}>
-          {recipe.category}
-        </span>
-
+        <CategoryBadge category={recipe.category} />
         <a href={recipe.source} className={styles.recipe__source}>
           {recipe.source}
         </a>

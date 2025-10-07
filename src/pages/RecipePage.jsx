@@ -1,39 +1,43 @@
 // TODO
 import { useParams } from 'react-router';
 import styles from './RecipePage.module.css';
-import RecipeList from '../features/RecipeList/RecipeList';
 import Button from '../shared/Button';
-// import RecipeForm from '../features/RecipeForm';
-import RecipeViewForm from '../features/RecipeViewForm';
+import CategoryBadge from '../shared/CategoryBadge';
 
 export default function RecipePage({ recipes }) {
-  console.log('recipes::::', recipes);
   const { id } = useParams();
   const recipe = recipes?.find((r) => r.id == id);
   return (
     <>
-      {/* 1 */}
+      {/* 1 block */}
       <div className={styles.recipeHeader}>
         <div
+          className={styles.recipePhoto}
           style={{
-            width: '300px',
-            height: '300px',
-            backgroundColor: '#ccc',
-            backgroundImage: `url(${recipe?.photo})`,
+            backgroundImage: `url(/${recipe.photo})`,
           }}
         ></div>
         <div className={styles.recipeTitle}>
-          <h3>{recipe?.category}</h3>
+          <CategoryBadge category={recipe?.category} />
           <h2>{recipe?.title}</h2>
         </div>
         <Button title="Edit" />
       </div>
-      {/* 2 */}
+      {/* 2 block */}
       <div className={styles.recipeMain}>
-        <div className={styles.recipeIngredients}>{recipe?.ingredients}</div>
+        <div className={styles.recipeIngredients}>
+          <h3>Ingredients: </h3>
+          {recipe?.ingredients}
+        </div>
         <div className={styles.recipeMethod}>
-          <p>{recipe?.method}</p>
-          <p>{recipe?.notes}</p>
+          <div>
+            <h3>Method: </h3>
+            {recipe?.method}
+          </div>
+          <div>
+            <h3>Notes: </h3>
+            {recipe?.notes}
+          </div>
         </div>
       </div>
     </>
