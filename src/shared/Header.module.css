@@ -1,3 +1,6 @@
+.header {
+  background-color: #a6e6e6;
+}
 .active {
   color: rgb(22, 21, 21);
 }
@@ -14,12 +17,6 @@
 
 .navItem:last-child {
   margin-right: 0px;
-}
-
-.mainTitle {
-  height: 20px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
 }
 
 h1 {

@@ -1,24 +1,24 @@
 // TODO
 import styles from './Header.module.css';
-// import { NavLink } from 'react-router';
+import { NavLink } from 'react-router';
 
 export default function Header({ title }) {
-  // const checkActive = (el) => {
-  //   if (el.isActive) return `${styles.navItem} ${styles.active} `;
-  //   return `${styles.navItem} ${styles.inactive}`;
-  // };
+  const checkActive = (el) => {
+    if (el.isActive) return `${styles.navItem} ${styles.active} `;
+    return `${styles.navItem} ${styles.inactive}`;
+  };
 
   return (
-    <header>
+    <header className={styles.header}>
       <h1 className={styles.mainTitle}>{title}</h1>
-      {/* <nav>
+      <nav>
         <NavLink to={'/'} className={(el) => checkActive(el)}>
           Home
         </NavLink>
         <NavLink to={'/about'} className={(el) => checkActive(el)}>
           About
         </NavLink>
-      </nav> */}
+      </nav>
     </header>
   );
 }

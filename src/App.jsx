@@ -2,9 +2,8 @@
 import {
   useState,
   // useReducer,
-  // useLocation,
   // useCallback,
-  // useEffect,
+  useEffect,
 } from 'react';
 import Header from './shared/Header';
 import styles from './App.module.css';
@@ -13,7 +12,7 @@ import RecipePage from './pages/RecipePage';
 import { records } from './data';
 import Modal from './features/Modal/Modal';
 import RecipeForm from './features/RecipeForm/RecipeForm';
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 
 const initialRecipesState = {
   recipes: records,
@@ -28,7 +27,7 @@ function App() {
   // const [recipeState, dispatch] = useReducer(recipesReducer, initialRecipesState);
   const [title, setTitle] = useState('Home');
   const [isModalOpen, setModalOpen] = useState(false);
-  // const location = useLocation();
+  const location = useLocation();
 
   // const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
@@ -48,19 +47,17 @@ function App() {
 
   const currentYear = new Date().getFullYear();
 
-  // useEffect(() => {
-  //   switch (location.pathname) {
-  //     case '/':
-  //       setTitle('Todo List');
-  //       break;
-  //     case '/about':
-  //       setTitle('About');
-  //       break;
-  //     default:
-  //       setTitle('Not Found');
-  //   }
-  // }, [location]);
-
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setTitle('Recipe Book');
+    } else if (location.pathname === '/about') {
+      setTitle('About');
+    } else if (location.pathname.startsWith('/recipe')) {
+      setTitle('Recipe');
+    } else {
+      setTitle('Not Found');
+    }
+  }, [location.pathname]);
   // useEffect(() => {
   //   const fetchTodos = async () => {
   //     // dispatch({ type: todoActions.fetchTodos, isLoading: true });
