@@ -5,14 +5,11 @@ import Pagination from '../Pagination/Pagination';
 // import { useSearchParams, useNavigate } from 'react-router';
 // import Pagination from '../Pagination/Pagination';
 // import { useEffect } from 'react';
+import { useRecipeContext } from '../../RecipeContext';
 
-function RecipeList({
-  recipeList,
-  // onCompleteTodo,
-  // onUpdateTodo,
-  isLoading,
-  // isSearch,
-}) {
+function RecipeList() {
+  const { state } = useRecipeContext();
+
   // const [searchParams, setSearchParams] = useSearchParams();
   // const navigate = useNavigate();
   // const itemsPerPage = 5;
@@ -24,7 +21,7 @@ function RecipeList({
   //   indexOfFirstTodo,
   //   indexOfFirstTodo + itemsPerPage
   // );
-  const slicedRecipeList = recipeList; // todo
+  const slicedRecipeList = state.recipes; // recipe
   // let totalPages = Math.ceil(filteredTodoList.length / itemsPerPage);
 
   // useEffect(() => {
@@ -45,7 +42,7 @@ function RecipeList({
   //   return <p>{'Nothing found...'}</p>;
   // }
 
-  return isLoading ? (
+  return state.isLoading ? (
     <p>{'Recipe list loading...'}</p>
   ) : slicedRecipeList.length ? (
     <>
@@ -54,6 +51,9 @@ function RecipeList({
           <RecipeListItem
             key={recipe.id}
             recipe={recipe}
+            // recipesActions={recipesActions}
+            // dispatch={dispatch}
+            // recipeState={recipeState}
             // onCompleteTodo={onCompleteTodo}
             // onUpdateTodo={onUpdateTodo}
           />

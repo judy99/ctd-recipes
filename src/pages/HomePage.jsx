@@ -4,12 +4,13 @@ import RecipeList from '../features/RecipeList/RecipeList';
 import Button from '../shared/Button';
 // import RecipeForm from '../features/RecipeForm';
 import RecipeViewForm from '../features/RecipeViewForm';
+import { useRecipeContext } from '../RecipeContext';
 
 export default function HomePage({
-  recipeState,
+  // recipeState,
   addRecipe,
-  recipesActions,
-  dispatch,
+  // recipesActions,
+  // dispatch,
   // dispatch,
   // todoActions,
   // addTodo,
@@ -17,18 +18,20 @@ export default function HomePage({
   // updateTodo,
   // isSearch,
 }) {
+  const { state } = useRecipeContext();
+
   return (
     <>
       <RecipeViewForm
-        recipe={recipeState.recipes}
+        // recipe={state.recipes}
         addRecipe={addRecipe}
-        recipesActions={recipesActions}
-        dispatch={dispatch}
+        // recipesActions={recipesActions}
+        // dispatch={dispatch}
       />
-      {recipeState?.errorMessage?.length ? (
+      {state?.errorMessage?.length ? (
         <div className={styles.errorWrapper}>
           <div className={styles.error}>
-            <p>Error: {recipeState?.errorMessage}</p>
+            <p>Error: {state?.errorMessage}</p>
 
             <Button title="Dismiss" />
             {/* <button
@@ -42,11 +45,14 @@ export default function HomePage({
         </div>
       ) : null}
       <RecipeList
-        recipeList={recipeState.recipes}
-        // onCompleteTodo={completeTodo}
-        // onUpdateTodo={updateTodo}
-        // isLoading={recipeState}
-        // isSearch={isSearch}
+      // recipeList={recipeState.recipes}
+      // recipeState={recipeState}
+      // recipesActions={recipesActions}
+      // dispatch={dispatch}
+      // onCompleteTodo={completeTodo}
+      // onUpdateTodo={updateTodo}
+      // isLoading={recipeState}
+      // isSearch={isSearch}
       />
     </>
   );

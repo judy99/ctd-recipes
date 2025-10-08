@@ -4,10 +4,13 @@ import styles from './RecipePage.module.css';
 import Button from '../shared/Button';
 import CategoryBadge from '../shared/CategoryBadge';
 import { DEFAULT_PHOTO } from '../shared/constants';
+import { useRecipeContext } from '../RecipeContext';
 
-export default function RecipePage({ recipes }) {
+export default function RecipePage() {
   const { id } = useParams();
-  const recipe = recipes?.find((r) => r.id == id);
+  const { state, dispatch } = useRecipeContext();
+
+  const recipe = state.recipes?.find((r) => r.id == id);
   return (
     <>
       {/* 1 block */}
@@ -21,7 +24,15 @@ export default function RecipePage({ recipes }) {
         <div className={styles.recipeTitle}>
           <CategoryBadge category={recipe?.category} />
           <h2>{recipe?.title}</h2>
-          <Button title="Edit Recipe" />
+          <Button
+            title="Edit Recipe"
+            onClickHandler={() => {
+              dispatch({
+                type: 'modalOpen',
+                isModalOpen: true,
+              });
+            }}
+          />
         </div>
       </div>
       {/* 2 block */}

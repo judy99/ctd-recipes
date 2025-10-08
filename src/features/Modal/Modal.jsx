@@ -1,15 +1,13 @@
 import styles from './Modal.module.css';
+import { useRecipeContext } from '../../RecipeContext';
 
-export default function Modal({
-  children,
-  isModalOpen,
-  recipesActions,
-  dispatch,
-}) {
+export default function Modal({ children }) {
+  const { state, dispatch } = useRecipeContext();
+
   const handleModalClose = () =>
-    dispatch({ type: recipesActions.modalOpen, isModalOpen: false });
+    dispatch({ type: 'modalOpen', isModalOpen: false });
 
-  if (!isModalOpen) return null;
+  if (!state.isModalOpen) return null;
 
   return (
     <div className={styles.modalOverlay} onClick={handleModalClose}>

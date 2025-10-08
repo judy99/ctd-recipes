@@ -4,9 +4,12 @@ import TextInputWithLabel from '../shared/TextInputWithLabel';
 // import { actions as todoActions } from '../reducers/todos.reducer';
 import Button from '../shared/Button';
 import styles from './RecipeViewForm.module.css';
+import { useRecipeContext } from '../RecipeContext';
 
-const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
-  const [localQueryString, setLocalQueryString] = useState(recipe?.queryString);
+const RecipeViewForm = () => {
+  const { state, dispatch } = useRecipeContext();
+
+  const [localQueryString, setLocalQueryString] = useState(state?.queryString);
 
   // const handleChangeSortField = (e) => {
   //   dispatch({ type: todoActions.changeSortField, sortField: e.target.value });
@@ -41,8 +44,8 @@ const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
         <div className={styles.search}>
           <TextInputWithLabel
             elementId={'recipeSearch'}
-            onChange={(e) => setLocalQueryString(e.target.value)}
-            value={localQueryString}
+            // onChange={(e) => setLocalQueryString(e.target.value)}
+            // value={localQueryString}
             placeholder={'Search by title...'}
           />
           <Button
@@ -56,7 +59,7 @@ const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
             <select
               name="sortBy"
               // onChange={handleChangeSortField}
-              value={recipe.sortField}
+              // value={state?.sortField}
             >
               <option value="title">Title</option>
               <option value="createdTime">Time added</option>
@@ -67,7 +70,7 @@ const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
             <select
               name="sortDir"
               // onChange={handleChangeSortDir}
-              value={recipe.sortDirection}
+              // value={state?.sortDirection}
             >
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
@@ -78,10 +81,11 @@ const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
             <select
               name="filterCategory"
               // onChange={handleChangeSortDir}
-              value={recipe.categoryFilter}
+              // value={state?.categoryFilter}
             >
-              <option value="dinner">Dinner</option>
+              <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
               <option value="dessert">Dessert</option>
             </select>
           </div>
@@ -92,7 +96,7 @@ const RecipeViewForm = ({ recipe, recipesActions, dispatch }) => {
           title="Add Recipe"
           onClickHandler={() => {
             dispatch({
-              type: recipesActions.modalOpen,
+              type: 'modalOpen',
               isModalOpen: true,
             });
           }}

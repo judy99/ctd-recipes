@@ -1,13 +1,7 @@
 // TODO
-import { useState, useReducer, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
-import {
-  reducer as recipesReducer,
-  actions as recipesActions,
-  // initialState as initialRecipesState,
-} from './reducers/recipes.reducer';
 import { getOptions } from './utility/getOptions';
-
 import Header from './shared/Header';
 import styles from './App.module.css';
 import HomePage from './pages/HomePage';
@@ -18,19 +12,23 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { Route, Routes, useLocation } from 'react-router';
 import { createPayload } from './utility/createPayload';
+import { useRecipeContext } from './RecipeContext';
 
-const initialState = {
-  recipes: [],
-  errorMessage: '',
-  queryString: '',
-  isSaving: false,
-  sortDirection: 'desc',
-  sortField: 'title',
-  isModalOpen: false,
-};
+// const initialState = {
+//   recipes: [],
+//   errorMessage: '',
+//   queryString: '',
+//   isSaving: false,
+//   sortDirection: 'desc',
+//   sortField: 'title',
+//   isModalOpen: false,
+// };
 
 function App() {
-  const [recipeState, dispatch] = useReducer(recipesReducer, initialState);
+  const { state, dispatch } = useRecipeContext();
+  console.log('recipeState', state);
+
+  // const [recipeState, dispatch] = useReducer(recipesReducer, initialState);
   const [title, setTitle] = useState('Home');
   // const [isModalOpen, setModalOpen] = useState(false);
   const location = useLocation();
@@ -40,16 +38,12 @@ function App() {
   const encodeUrl = useCallback(() => {
     const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
     let searchQuery = '';
-    let sortQuery = `sort[0][field]=${recipeState.sortField}&sort[0][direction]=${recipeState.sortDirection}`;
-    if (recipeState.queryString) {
-      searchQuery = `&filterByFormula=SEARCH("${recipeState.queryString}",+title)`;
+    let sortQuery = `sort[0][field]=${state.sortField}&sort[0][direction]=${state.sortDirection}`;
+    if (state.queryString) {
+      searchQuery = `&filterByFormula=SEARCH("${state.queryString}",+title)`;
     }
     return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-  }, [
-    recipeState.sortField,
-    recipeState.sortDirection,
-    recipeState.queryString,
-  ]);
+  }, [state.sortField, state.sortDirection, state.queryString]);
 
   const currentYear = new Date().getFullYear();
 
@@ -67,7 +61,7 @@ function App() {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      dispatch({ type: recipesActions.fetchRecipes, isLoading: true });
+      dispatch({ type: 'fetchRecipes', isLoading: true });
       const options = getOptions('GET', token);
       try {
         const url = encodeUrl();
@@ -76,39 +70,35 @@ function App() {
           throw new Error(resp.message || 'Something went wrong!');
         }
         const { records } = await resp.json();
-        dispatch({ type: recipesActions.loadRecipes, records });
+        dispatch({ type: 'loadRecipes', records });
       } catch (error) {
         dispatch({
-          type: recipesActions.setLoadError,
+          type: 'setLoadError',
           errorMessage: error.message,
         });
       } finally {
-        dispatch({ type: recipesActions.fetchRecipes, isLoading: false });
+        dispatch({ type: 'fetchRecipes', isLoading: false });
       }
     };
     fetchRecipes();
-  }, [
-    recipeState.sortField,
-    recipeState.sortDirection,
-    recipeState.queryString,
-  ]);
+  }, [state.sortField, state.sortDirection, state.queryString]);
 
   const addRecipe = async (newRecipe) => {
     const payload = createPayload(newRecipe);
     const options = getOptions('POST', token, payload);
     try {
-      dispatch({ type: recipesActions.startRequest });
+      dispatch({ type: 'startRequest' });
       const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) throw new Error(resp.message || 'Something went wrong!');
       const { records } = await resp.json();
-      dispatch({ type: recipesActions.addRecipe, records });
+      dispatch({ type: 'addRecipe', records });
     } catch (error) {
       dispatch({
-        type: recipesActions.setLoadError,
+        type: 'setLoadError',
         errorMessage: error.message,
       });
     } finally {
-      dispatch({ type: recipesActions.endRequest });
+      dispatch({ type: 'endRequest' });
     }
   };
 
@@ -121,10 +111,10 @@ function App() {
             path="/"
             element={
               <HomePage
-                recipeState={recipeState}
-                dispatch={dispatch}
+                // recipeState={state}
+                // dispatch={dispatch}
                 addRecipe={addRecipe}
-                recipesActions={recipesActions}
+                // recipesActions={recipesActions}
               />
 
               // <TodosPage
@@ -140,7 +130,7 @@ function App() {
           />
           <Route
             path="/recipe/:id"
-            element={<RecipePage recipes={recipeState.recipes} />}
+            element={<RecipePage recipes={state.recipes} />}
           />
 
           <Route path="/about" element={<About />} />
@@ -148,8 +138,8 @@ function App() {
         </Routes>
       </main>
       <Modal
-        isModalOpen={recipeState.isModalOpen}
-        recipesActions={recipesActions}
+        isModalOpen={state.isModalOpen}
+        // recipesActions={recipesActions}
         dispatch={dispatch}
       >
         <h2>Create a recipe</h2>
