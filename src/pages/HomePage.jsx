@@ -16,6 +16,7 @@ export default function HomePage({
   // updateTodo,
   // isSearch,
 }) {
+  // console.log('recipeState.recipes::::', recipeState.recipes);
   return (
     <>
       <RecipeViewForm
@@ -23,7 +24,7 @@ export default function HomePage({
         isModalOpen={isModalOpen}
         setModalOpen={setModalOpen}
       />
-      {recipeState?.errorMessage.length ? (
+      {recipeState?.errorMessage?.length ? (
         <div className={styles.errorWrapper}>
           <div className={styles.error}>
             <p>Error: {recipeState?.errorMessage}</p>

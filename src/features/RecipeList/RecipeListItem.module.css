@@ -109,3 +109,7 @@
   text-overflow: ellipsis;
   margin-top: 10px;
 }
+
+.categoryListItem {
+  display: flex;
+}
