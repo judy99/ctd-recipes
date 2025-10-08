@@ -10,16 +10,14 @@ function RecipeListItem({ recipe }) {
       <img
         className={styles.recipePhoto}
         src={recipe.photo || DEFAULT_PHOTO}
-        alt={recipe.name}
+        alt={recipe.title}
       />
       <div className={styles.recipeContent}>
         <Link to={`/recipe/${recipe.id}`}>
-          <h3 className={styles.recipeTitle}>{recipe.name}</h3>
+          <h3 className={styles.recipeTitle}>{recipe.title}</h3>
         </Link>
         <div className={styles.categoryListItem}>
-          {recipe?.categoryName.map((item) => (
-            <CategoryBadge category={item} />
-          ))}
+          <CategoryBadge category={recipe.category} />
         </div>
         <a href={recipe.source} className={styles.recipeSource}>
           {recipe.source}

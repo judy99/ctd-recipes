@@ -7,8 +7,9 @@ import RecipeViewForm from '../features/RecipeViewForm';
 
 export default function HomePage({
   recipeState,
-  setModalOpen,
-  isModalOpen,
+  addRecipe,
+  recipesActions,
+  dispatch,
   // dispatch,
   // todoActions,
   // addTodo,
@@ -16,13 +17,13 @@ export default function HomePage({
   // updateTodo,
   // isSearch,
 }) {
-  // console.log('recipeState.recipes::::', recipeState.recipes);
   return (
     <>
       <RecipeViewForm
         recipe={recipeState.recipes}
-        isModalOpen={isModalOpen}
-        setModalOpen={setModalOpen}
+        addRecipe={addRecipe}
+        recipesActions={recipesActions}
+        dispatch={dispatch}
       />
       {recipeState?.errorMessage?.length ? (
         <div className={styles.errorWrapper}>
@@ -40,7 +41,6 @@ export default function HomePage({
           </div>
         </div>
       ) : null}
-      {/* <RecipeForm onAddTodo={addTodo} isSaving={recipeState.isSaving} /> */}
       <RecipeList
         recipeList={recipeState.recipes}
         // onCompleteTodo={completeTodo}

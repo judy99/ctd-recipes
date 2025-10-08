@@ -12,12 +12,12 @@ import Header from './shared/Header';
 import styles from './App.module.css';
 import HomePage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
-// import { records } from './data';
 import Modal from './features/Modal/Modal';
 import RecipeForm from './features/RecipeForm/RecipeForm';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { Route, Routes, useLocation } from 'react-router';
+import { createPayload } from './utility/createPayload';
 
 const initialState = {
   recipes: [],
@@ -25,13 +25,14 @@ const initialState = {
   queryString: '',
   isSaving: false,
   sortDirection: 'desc',
-  sortField: 'name',
+  sortField: 'title',
+  isModalOpen: false,
 };
 
 function App() {
   const [recipeState, dispatch] = useReducer(recipesReducer, initialState);
   const [title, setTitle] = useState('Home');
-  const [isModalOpen, setModalOpen] = useState(false);
+  // const [isModalOpen, setModalOpen] = useState(false);
   const location = useLocation();
 
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -92,6 +93,25 @@ function App() {
     recipeState.queryString,
   ]);
 
+  const addRecipe = async (newRecipe) => {
+    const payload = createPayload(newRecipe);
+    const options = getOptions('POST', token, payload);
+    try {
+      dispatch({ type: recipesActions.startRequest });
+      const resp = await fetch(encodeUrl(), options);
+      if (!resp.ok) throw new Error(resp.message || 'Something went wrong!');
+      const { records } = await resp.json();
+      dispatch({ type: recipesActions.addRecipe, records });
+    } catch (error) {
+      dispatch({
+        type: recipesActions.setLoadError,
+        errorMessage: error.message,
+      });
+    } finally {
+      dispatch({ type: recipesActions.endRequest });
+    }
+  };
+
   return (
     <div className={styles.appWrapper}>
       <Header title={title} />
@@ -102,8 +122,9 @@ function App() {
             element={
               <HomePage
                 recipeState={recipeState}
-                isModalOpen={isModalOpen}
-                setModalOpen={setModalOpen}
+                dispatch={dispatch}
+                addRecipe={addRecipe}
+                recipesActions={recipesActions}
               />
 
               // <TodosPage
@@ -126,9 +147,13 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+      <Modal
+        isModalOpen={recipeState.isModalOpen}
+        recipesActions={recipesActions}
+        dispatch={dispatch}
+      >
         <h2>Create a recipe</h2>
-        <RecipeForm />
+        <RecipeForm addRecipe={addRecipe} />
       </Modal>
       <footer>
         <p>

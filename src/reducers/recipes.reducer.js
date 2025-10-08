@@ -5,7 +5,7 @@ const initialState = {
   queryString: '',
   isSaving: false,
   sortDirection: 'desc',
-  sortField: 'name',
+  sortField: 'title',
 };
 
 const actions = {
@@ -30,6 +30,7 @@ const actions = {
   changeSortField: 'changeSortField',
   // change query string
   changeQueryString: 'changeQueryString',
+  modalOpen: 'modalOpen',
 };
 
 function reducer(state = initialState, action) {
@@ -40,6 +41,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isLoading: action.isLoading,
+      };
+
+    case actions.modalOpen:
+      return {
+        ...state,
+        isModalOpen: action.isModalOpen,
       };
 
     case actions.loadRecipes:
@@ -70,8 +77,7 @@ function reducer(state = initialState, action) {
         errorMessage: '',
       };
 
-    // TODO
-    // add todos (pessimistic UI)
+    // add recipe (pessimistic UI)
     case actions.startRequest:
       return {
         ...state,
@@ -85,21 +91,22 @@ function reducer(state = initialState, action) {
         isLoading: false,
       };
 
-    // case actions.addTodo:
-    //   const savedTodo = {
-    //     id: action.records[0].id,
-    //     ...action.records[0].fields,
-    //   };
-    //   // Airtable does not return false or empty fields
-    //   if (!action.records[0].fields.isCompleted) {
-    //     savedTodo.isCompleted = false;
-    //   }
+    case actions.addRecipe:
+      const savedRecipe = {
+        id: action.records[0].id,
+        ...action.records[0].fields,
+      };
 
-    //   return {
-    //     ...state,
-    //     isSaving: false,
-    //     todoList: [...state.todoList, savedTodo],
-    //   };
+      // Airtable does not return false or empty fields
+      if (!action.records[0].fields.photo) {
+        savedRecipe.photo = null;
+      }
+
+      return {
+        ...state,
+        isSaving: false,
+        recipes: [...state.recipes, savedRecipe],
+      };
 
     // updateTodo, completeTodo (Optimistic UI)
     // case actions.revertTodo:
