@@ -21,7 +21,7 @@
 export const records = [
   {
     id: 1,
-    photo: './src/assets/recipe1.png',
+    photo: '/src/assets/recipe1.png',
     category: 'breakfast',
     title: 'Chinese Eggplant with Garlic Sauce',
     ingredients: `10 oz Chinese eggplant (about 2 small eggplant) , chopped to bite-size pieces (*Footnote 1)
@@ -52,7 +52,7 @@ Before introducing the first method, I want to thank my friend Steve S. He taugh
   },
   {
     id: 2,
-    photo: './src/assets/recipe2.png',
+    photo: null,
     category: 'lunch',
     title: 'Wonton Soup',
     ingredients: `1 pack wonton wrappers (80 wrappers)
@@ -89,7 +89,7 @@ The nutrition facts for this recipe are calculated based on 1 bowl of chicken-br
   {
     id: 3,
     title: 'Chocolate Chip Cookies',
-    photo: './src/assets/chocolate-chip-cookies.jpg',
+    photo: '/src/assets/chocolate-chip-cookies.jpg',
     category: 'dessert',
     ingredients: `
 1 cup unsalted butter, (16 Tbsp), softened
@@ -137,7 +137,7 @@ baking sheet 5 min then transfer to a rack to cool. `,
   },
   {
     id: 4,
-    photo: './src/assets/recipe2.png',
+    photo: null,
     category: 'lunch',
     title: 'Wonton Soup',
     ingredients: `1 pack wonton wrappers (80 wrappers)
@@ -174,7 +174,7 @@ The nutrition facts for this recipe are calculated based on 1 bowl of chicken-br
   {
     id: 5,
     title: 'Chocolate Chip Cookies',
-    photo: './src/assets/chocolate-chip-cookies.jpg',
+    photo: '/src/assets/chocolate-chip-cookies.jpg',
     category: 'dessert',
     ingredients: `Servings: 26 chocolate chip cookies
 

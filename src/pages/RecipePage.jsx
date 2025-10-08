@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import styles from './RecipePage.module.css';
 import Button from '../shared/Button';
 import CategoryBadge from '../shared/CategoryBadge';
+import { DEFAULT_PHOTO } from '../shared/constants';
 
 export default function RecipePage({ recipes }) {
   const { id } = useParams();
@@ -11,17 +12,17 @@ export default function RecipePage({ recipes }) {
     <>
       {/* 1 block */}
       <div className={styles.recipeHeader}>
-        <div
+        <img
           className={styles.recipePhoto}
-          style={{
-            backgroundImage: `url(/${recipe.photo})`,
-          }}
-        ></div>
+          src={recipe.photo || DEFAULT_PHOTO}
+          alt={recipe.title}
+        />
+
         <div className={styles.recipeTitle}>
           <CategoryBadge category={recipe?.category} />
           <h2>{recipe?.title}</h2>
+          <Button title="Edit Recipe" />
         </div>
-        <Button title="Edit" />
       </div>
       {/* 2 block */}
       <div className={styles.recipeMain}>

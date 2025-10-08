@@ -32,6 +32,8 @@ footer p {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  max-width: 1300px;
+  min-width: 350px;
 }
 
 .errorWrapper {
@@ -51,4 +53,8 @@ footer p {
   background-color: azure;
   top: 20px;
   right: 20px;
+}
+
+.notFound {
+  text-align: center;
 }

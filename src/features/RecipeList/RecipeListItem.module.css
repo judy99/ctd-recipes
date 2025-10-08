@@ -1,4 +1,4 @@
-.recipe__item {
+.recipeItem {
   text-align: left;
   background-color: #fff;
   border-radius: 10px;
@@ -6,59 +6,19 @@
   display: flex;
   flex-direction: column;
   background-origin: border-box;
-  /* max-height: 576px;
-  height: 576px; */
   border: 1px solid #ccc;
   margin: 10px;
   width: 250px;
 }
 
-.recipe__item:hover {
+.recipeTitle:hover {
   cursor: pointer;
 }
 
-/* show just 6 first items */
-.recipe__item:nth-child(n + 7) {
-  /* display: none; */
-}
-
-.recipe__tools {
-  display: flex;
-  justify-content: space-between;
-  background-image: url(../../images/temp/image_08.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  min-height: 120px;
-  box-sizing: border-box;
-  /* padding: 24px; */
+.recipePhoto {
   margin-bottom: 10px;
-}
-
-.recipe__tools-action {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-}
-.recipe__icon-trash {
-  background-size: 24px 24px;
-  background-image: url(../../images/compressed/trash.png);
-}
-
-.recipe__icon-trash:hover {
-  background-image: url(../../images/compressed/trash-hover.png);
-}
-
-.recipe__icon-save {
-  background-size: 14px 19px;
-}
-
-.recipe__icon-save_normal {
-  background-image: url(../../images/compressed/save-normal.png);
-}
-
-.recipe__icon-save_marked {
-  background-image: url(../../images/compressed/save-marked.png);
+  height: 150px;
+  object-fit: cover;
 }
 
 .recipe__tooltip {
@@ -113,31 +73,20 @@
   right: 45px;
 }
 
-.recipe__post {
+.recipeContent {
   padding: 0 10px 10px;
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.recipe__date {
-  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 24px;
-  align-items: center;
-  color: #b6bcbf;
-  margin-bottom: 12px;
+.recipeContent a {
+  text-decoration: none;
 }
 
-.recipe__title {
+.recipeTitle {
   margin: 0 0 8px 0;
   padding: 0;
-  font-family: 'Roboto Slab', 'Arial', 'Helvetica', sans-serif;
-  font-style: normal;
-  font-weight: normal;
   font-size: 18px;
   line-height: 20px;
   color: #1a1b22;
@@ -147,26 +96,9 @@
   height: 50px;
 }
 
-.recipe__text {
-  margin: 0 0 16px 0;
-  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 22px;
-  color: #1a1b22;
-  height: 110px;
-  max-height: 110px;
-  min-height: 110px;
-  overflow-y: hidden;
-  text-overflow: ellipsis;
-  box-sizing: border-box;
-}
-
-.recipe__source {
+.recipeSource {
   font-family: 'Roboto Slab', 'Arial', 'Helvetica', sans-serif;
   font-style: normal;
-  /* font-weight: bold; */
   font-size: 13px;
   line-height: 20px;
   color: #b6bcbf;
