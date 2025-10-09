@@ -4,7 +4,7 @@ const initialState = {
   errorMessage: '',
   queryString: '',
   isSaving: false,
-  sortDirection: 'desc',
+  sortDirection: 'asc',
   sortField: 'title',
   recipeToEdit: null,
 };
@@ -26,7 +26,7 @@ const actions = {
   //action on Dismiss Error button
   clearError: 'clearError',
   // change sort direction in RecipesViewForm
-  changeSortDirection: 'changSortDirection',
+  changeSortDirection: 'changeSortDirection',
   // change sort field in RecipesViewForm
   changeSortField: 'changeSortField',
   // change query string

@@ -18,7 +18,7 @@ export default function HomePage({
   // updateTodo,
   // isSearch,
 }) {
-  const { state } = useRecipeContext();
+  const { state, dispatch } = useRecipeContext();
 
   return (
     <>
@@ -33,14 +33,10 @@ export default function HomePage({
           <div className={styles.error}>
             <p>Error: {state?.errorMessage}</p>
 
-            <Button title="Dismiss" />
-            {/* <button
-              className="formButton"
-              type="button"
-              onClick={() => dispatch({ type: todoActions.clearError })}
-            >
-              Dismiss
-            </button> */}
+            <Button
+              title="Dismiss"
+              onClickHandler={() => dispatch({ type: 'clearError' })}
+            />
           </div>
         </div>
       ) : null}

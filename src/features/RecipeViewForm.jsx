@@ -9,8 +9,6 @@ import { useRecipeContext } from '../RecipeContext';
 const RecipeViewForm = () => {
   const { state, dispatch } = useRecipeContext();
 
-  console.log('state in RecipeViewForm:', state);
-
   const [localQueryString, setLocalQueryString] = useState(state?.queryString);
 
   const handleChangeSortField = (e) => {
@@ -18,7 +16,6 @@ const RecipeViewForm = () => {
   };
 
   const handleChangeSortDir = (e) => {
-    console.log('handleChangeSortDir...');
     dispatch({
       type: 'changeSortDirection',
       sortDirection: e.target.value,
