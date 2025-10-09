@@ -17,8 +17,8 @@ export default function RecipePage() {
       <div className={styles.recipeHeader}>
         <img
           className={styles.recipePhoto}
-          src={recipe.photo || DEFAULT_PHOTO}
-          alt={recipe.title}
+          src={recipe?.photo || DEFAULT_PHOTO}
+          alt={recipe?.title}
         />
 
         <div className={styles.recipeTitle}>
@@ -30,6 +30,7 @@ export default function RecipePage() {
               dispatch({
                 type: 'modalOpen',
                 isModalOpen: true,
+                recipeToEdit: recipe,
               });
             }}
           />

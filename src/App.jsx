@@ -14,36 +14,28 @@ import { Route, Routes, useLocation } from 'react-router';
 import { createPayload } from './utility/createPayload';
 import { useRecipeContext } from './RecipeContext';
 
-// const initialState = {
-//   recipes: [],
-//   errorMessage: '',
-//   queryString: '',
-//   isSaving: false,
-//   sortDirection: 'desc',
-//   sortField: 'title',
-//   isModalOpen: false,
-// };
-
 function App() {
   const { state, dispatch } = useRecipeContext();
-  console.log('recipeState', state);
-
-  // const [recipeState, dispatch] = useReducer(recipesReducer, initialState);
   const [title, setTitle] = useState('Home');
-  // const [isModalOpen, setModalOpen] = useState(false);
   const location = useLocation();
 
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   const encodeUrl = useCallback(() => {
     const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+    let recordId = state?.recipeToEdit?.id || '';
     let searchQuery = '';
     let sortQuery = `sort[0][field]=${state.sortField}&sort[0][direction]=${state.sortDirection}`;
     if (state.queryString) {
       searchQuery = `&filterByFormula=SEARCH("${state.queryString}",+title)`;
     }
-    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-  }, [state.sortField, state.sortDirection, state.queryString]);
+    return encodeURI(`${url}/${recordId}?${sortQuery}${searchQuery}`);
+  }, [
+    state.sortField,
+    state.sortDirection,
+    state.queryString,
+    state.recipeToEdit,
+  ]);
 
   const currentYear = new Date().getFullYear();
 
@@ -102,6 +94,30 @@ function App() {
     }
   };
 
+  const updateRecipe = async (updatedRecipe) => {
+    const originalRecipe = state.recipes.find(
+      (recipe) => recipe.id === updatedRecipe.id
+    );
+    const payload = createPayload(updatedRecipe);
+    const options = getOptions('PATCH', token, payload.records[0]);
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}/${updatedRecipe.id}`;
+
+    // optimistic update
+    dispatch({ type: 'updateRecipe', editedRecipe: updatedRecipe });
+
+    try {
+      const resp = await fetch(url, options);
+      if (!resp.ok) {
+        throw new Error(resp.message);
+      }
+    } catch (error) {
+      dispatch({
+        type: 'revertRecipe',
+        errorMessage: `${error.message}. Reverting recipe...`,
+        editedRecipe: originalRecipe,
+      });
+    }
+  };
   return (
     <div className={styles.appWrapper}>
       <Header title={title} />
@@ -116,34 +132,19 @@ function App() {
                 addRecipe={addRecipe}
                 // recipesActions={recipesActions}
               />
-
-              // <TodosPage
-              //   todoState={todoState}
-              //   dispatch={dispatch}
-              //   todoActions={todoActions}
-              //   addTodo={addTodo}
-              //   completeTodo={completeTodo}
-              //   updateTodo={updateTodo}
-              //   isSearch={todoState.queryString}
-              // />
             }
           />
-          <Route
-            path="/recipe/:id"
-            element={<RecipePage recipes={state.recipes} />}
-          />
-
+          <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Modal
-        isModalOpen={state.isModalOpen}
-        // recipesActions={recipesActions}
-        dispatch={dispatch}
-      >
-        <h2>Create a recipe</h2>
-        <RecipeForm addRecipe={addRecipe} />
+      <Modal isModalOpen={state.isModalOpen} dispatch={dispatch}>
+        <RecipeForm
+          recipeToEdit={state.recipeToEdit}
+          addRecipe={addRecipe}
+          updateRecipe={updateRecipe}
+        />
       </Modal>
       <footer>
         <p>

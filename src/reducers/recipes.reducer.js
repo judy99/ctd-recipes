@@ -6,6 +6,7 @@ const initialState = {
   isSaving: false,
   sortDirection: 'desc',
   sortField: 'title',
+  recipeToEdit: null,
 };
 
 const actions = {
@@ -47,6 +48,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: action.isModalOpen,
+        recipeToEdit: action.recipeToEdit,
       };
 
     case actions.loadRecipes:
@@ -108,20 +110,21 @@ function reducer(state = initialState, action) {
         recipes: [...state.recipes, savedRecipe],
       };
 
-    // updateTodo, completeTodo (Optimistic UI)
-    // case actions.revertTodo:
-    // case actions.updateTodo:
-    //   const updatedTodoList = state.todoList.map((todo) =>
-    //     todo.id === action.editedTodo.id ? action.editedTodo : todo
-    //   );
-    //   const updatedState = {
-    //     ...state,
-    //     todoList: [...updatedTodoList],
-    //     errorMessage: action.errorMessage ? action.errorMessage : '',
-    //   };
-    //   return {
-    //     ...updatedState,
-    //   };
+    // updateRecipe (Optimistic UI)
+    case actions.revertRecipe:
+    case actions.updateRecipe:
+      const updatedRecipesList = state.recipes.map((recipe) =>
+        recipe.id === action.editedRecipe.id ? action.editedRecipe : recipe
+      );
+
+      const updatedState = {
+        ...state,
+        recipes: [...updatedRecipesList],
+        errorMessage: action.errorMessage ? action.errorMessage : '',
+      };
+      return {
+        ...updatedState,
+      };
 
     case actions.changeSortField:
       return {
