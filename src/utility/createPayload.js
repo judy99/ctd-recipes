@@ -4,7 +4,8 @@ export function createPayload({
   ingredients,
   method,
   notes,
-  photoUrl,
+  source,
+  urlCloudinary,
 }) {
   const record = {
     fields: {
@@ -13,7 +14,8 @@ export function createPayload({
       ingredients,
       method,
       notes,
-      photo: photoUrl,
+      source,
+      urlCloudinary,
     },
   };
 

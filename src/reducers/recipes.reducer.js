@@ -100,8 +100,8 @@ function reducer(state = initialState, action) {
       };
 
       // Airtable does not return false or empty fields
-      if (!action.records[0].fields.photo) {
-        savedRecipe.photo = null;
+      if (!action.records[0].fields.urlCloudinary) {
+        savedRecipe.urlCloudinary = null;
       }
 
       return {

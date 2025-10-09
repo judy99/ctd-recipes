@@ -15,11 +15,66 @@ export default function RecipeForm({
   const [ingredients, setIngredients] = useState('');
   const [method, setMethod] = useState('');
   const [notes, setNotes] = useState('');
+  const [source, setSource] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  // const [cloudinaryImageUrl, setCloudinaryImageUrl] = useState('');
+
   const { dispatch } = useRecipeContext();
+
+  // Access environment variables securely
+  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
   const handleCancel = () =>
     dispatch({ type: 'modalOpen', isModalOpen: false });
+
+  const handleFileChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    setImageFile(e.target.files[0]);
+    setImageUrl(URL.createObjectURL(file));
+    // setImageUrl(''); // Clear previous image URL
+  };
+
+  useEffect(() => {
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [imageUrl]);
+
+  const cloudinaryUpload = async () => {
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Cloudinary upload failed.');
+      }
+      const data = await response.json();
+      console.log('data.secure_url:::', data.secure_url);
+      // setCloudinaryImageUrl(data.secure_url); // Store the public URL of the uploaded image
+      // console.log('cloudinaryImageUrl:::', cloudinaryImageUrl);
+      // setLoading(false);
+      alert('Image uploaded successfully!');
+      return data.secure_url;
+    } catch (error) {
+      console.error('Upload Error:', error);
+      // setLoading(false);
+      alert('Failed to upload image.');
+    }
+  };
 
   // If editing, populate form with recipe data
   useEffect(() => {
@@ -29,12 +84,19 @@ export default function RecipeForm({
       setIngredients(recipeToEdit.ingredients || '');
       setMethod(recipeToEdit.method || '');
       setNotes(recipeToEdit.notes || '');
+      setSource(recipeToEdit.source || '');
+      setImageUrl(recipeToEdit.urlCloudinary || '');
+      // setImagePreviewUrl(recipeToEdit.imageUrl || null);
       // optionally preload image if available
     }
   }, [recipeToEdit]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const urlCloudinary = await cloudinaryUpload();
+
+    console.log('urlCloudinary:', urlCloudinary);
 
     const recipeData = {
       title,
@@ -42,7 +104,8 @@ export default function RecipeForm({
       ingredients,
       method,
       notes,
-      image: imageFile,
+      source,
+      urlCloudinary,
     };
 
     if (recipeToEdit && updateRecipe) {
@@ -57,6 +120,7 @@ export default function RecipeForm({
     setIngredients('');
     setMethod('');
     setNotes('');
+    setSource('');
     setImageFile(null);
 
     handleCancel();
@@ -67,11 +131,27 @@ export default function RecipeForm({
       <h2>{`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe</h2>
       <form id="recipeForm" onSubmit={(e) => e.preventDefault()}>
         <div className={styles.formUploadFile}>
+          <label htmlFor="imageUpload" className={styles.uploadLabel}>
+            {imageUrl ? 'Change Image' : 'Choose Image'}
+          </label>{' '}
           <input
+            id="imageUpload"
             type="file"
-            accept="image/*" // Restrict to image files
-            onChange={(e) => setImageFile(e.target.files[0])}
+            accept="image/*"
+            onChange={handleFileChange}
+            className={styles.hiddenInput}
           />
+          {imageUrl && (
+            <div className={styles.previewWrapper}>
+              <h4>Image Preview:</h4>
+              <img
+                src={imageUrl}
+                alt="Selected"
+                className={styles.imagePreview}
+              />
+              {/* <p className={styles.imageUrl}>{imageUrl}</p> */}
+            </div>
+          )}
         </div>
         <div className={styles.formItem}>
           <TextInputWithLabel
@@ -115,6 +195,14 @@ export default function RecipeForm({
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder={'Enter notes...'}
+          />
+        </div>
+        <div className={styles.formItem}>
+          <TextInputWithLabel
+            labelText="Source:"
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+            placeholder={'Enter source...'}
           />
         </div>
         <div className={styles.buttonWrapper}>

@@ -9,7 +9,7 @@ function RecipeListItem({ recipe }) {
     <li className={styles.recipeItem}>
       <img
         className={styles.recipePhoto}
-        src={recipe.photo || DEFAULT_PHOTO}
+        src={recipe.urlCloudinary || DEFAULT_PHOTO}
         alt={recipe.title}
       />
       <div className={styles.recipeContent}>

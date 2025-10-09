@@ -10,6 +10,8 @@ export default function RecipePage() {
   const { id } = useParams();
   const { state, dispatch } = useRecipeContext();
 
+  console.log('state RecipePage: ', state);
+
   const recipe = state.recipes?.find((r) => r.id == id);
   return (
     <>
@@ -17,7 +19,7 @@ export default function RecipePage() {
       <div className={styles.recipeHeader}>
         <img
           className={styles.recipePhoto}
-          src={recipe?.photo || DEFAULT_PHOTO}
+          src={recipe?.urlCloudinary || DEFAULT_PHOTO}
           alt={recipe?.title}
         />
 
@@ -50,6 +52,10 @@ export default function RecipePage() {
           <div>
             <h3>Notes: </h3>
             {recipe?.notes}
+          </div>
+          <div>
+            <h3>Source: </h3>
+            {recipe?.source}
           </div>
         </div>
       </div>

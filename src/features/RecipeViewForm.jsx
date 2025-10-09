@@ -9,28 +9,31 @@ import { useRecipeContext } from '../RecipeContext';
 const RecipeViewForm = () => {
   const { state, dispatch } = useRecipeContext();
 
+  console.log('state in RecipeViewForm:', state);
+
   const [localQueryString, setLocalQueryString] = useState(state?.queryString);
 
-  // const handleChangeSortField = (e) => {
-  //   dispatch({ type: todoActions.changeSortField, sortField: e.target.value });
-  // };
+  const handleChangeSortField = (e) => {
+    dispatch({ type: 'changeSortField', sortField: e.target.value });
+  };
 
-  // const handleChangeSortDir = (e) => {
-  //   dispatch({
-  //     type: todoActions.changeSortDirection,
-  //     sortDirection: e.target.value,
-  //   });
-  // };
+  const handleChangeSortDir = (e) => {
+    console.log('handleChangeSortDir...');
+    dispatch({
+      type: 'changeSortDirection',
+      sortDirection: e.target.value,
+    });
+  };
 
   useEffect(() => {
     const debounce = setTimeout(() => {
-      // dispatch({
-      //   type: todoActions.changeQueryString,
-      //   queryString: localQueryString,
-      // });
+      dispatch({
+        type: 'changeQueryString',
+        queryString: localQueryString,
+      });
     }, 500);
     return () => clearTimeout(debounce);
-  }, [localQueryString]);
+  }, [localQueryString, dispatch]);
 
   // prevent the page from refreshing if a user accidentally
   // hits enter while working with this form
@@ -44,8 +47,8 @@ const RecipeViewForm = () => {
         <div className={styles.search}>
           <TextInputWithLabel
             elementId={'recipeSearch'}
-            // onChange={(e) => setLocalQueryString(e.target.value)}
-            // value={localQueryString}
+            onChange={(e) => setLocalQueryString(e.target.value)}
+            value={localQueryString}
             placeholder={'Search by title...'}
           />
           <Button
@@ -58,8 +61,8 @@ const RecipeViewForm = () => {
             <label htmlFor="sortBy">Sort by: </label>
             <select
               name="sortBy"
-              // onChange={handleChangeSortField}
-              // value={state?.sortField}
+              onChange={handleChangeSortField}
+              value={state?.sortField}
             >
               <option value="title">Title</option>
               <option value="createdTime">Time added</option>
@@ -69,8 +72,8 @@ const RecipeViewForm = () => {
             <label htmlFor="sortDir">Direction: </label>
             <select
               name="sortDir"
-              // onChange={handleChangeSortDir}
-              // value={state?.sortDirection}
+              onChange={handleChangeSortDir}
+              value={state?.sortDirection}
             >
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
@@ -80,8 +83,8 @@ const RecipeViewForm = () => {
             <label htmlFor="filterCategory">Meal Type: </label>
             <select
               name="filterCategory"
-              // onChange={handleChangeSortDir}
-              // value={state?.categoryFilter}
+              onChange={handleChangeSortDir}
+              value={state?.categoryFilter}
             >
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>

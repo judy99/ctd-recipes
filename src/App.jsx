@@ -29,12 +29,14 @@ function App() {
     if (state.queryString) {
       searchQuery = `&filterByFormula=SEARCH("${state.queryString}",+title)`;
     }
-    return encodeURI(`${url}/${recordId}?${sortQuery}${searchQuery}`);
+    return recordId
+      ? encodeURI(`${url}/${recordId}?${sortQuery}${searchQuery}`)
+      : encodeURI(`${url}?${sortQuery}${searchQuery}`);
   }, [
-    state.sortField,
-    state.sortDirection,
-    state.queryString,
-    state.recipeToEdit,
+    state?.sortField,
+    state?.sortDirection,
+    state?.queryString,
+    state?.recipeToEdit,
   ]);
 
   const currentYear = new Date().getFullYear();
@@ -73,7 +75,7 @@ function App() {
       }
     };
     fetchRecipes();
-  }, [state.sortField, state.sortDirection, state.queryString]);
+  }, [state?.sortField, state?.sortDirection, state?.queryString]);
 
   const addRecipe = async (newRecipe) => {
     const payload = createPayload(newRecipe);
@@ -139,9 +141,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Modal isModalOpen={state.isModalOpen} dispatch={dispatch}>
+      <Modal isModalOpen={state?.isModalOpen} dispatch={dispatch}>
         <RecipeForm
-          recipeToEdit={state.recipeToEdit}
+          recipeToEdit={state?.recipeToEdit}
           addRecipe={addRecipe}
           updateRecipe={updateRecipe}
         />
