@@ -22,6 +22,14 @@ const RecipeViewForm = () => {
     });
   };
 
+  const handleChangeCategory = (e) => {
+    const cat = e.target.value;
+    dispatch({
+      type: 'changeCategory',
+      filterCategory: cat !== 'all' ? cat : '',
+    });
+  };
+
   useEffect(() => {
     const debounce = setTimeout(() => {
       dispatch({
@@ -80,9 +88,10 @@ const RecipeViewForm = () => {
             <label htmlFor="filterCategory">Meal Type: </label>
             <select
               name="filterCategory"
-              onChange={handleChangeSortDir}
+              onChange={handleChangeCategory}
               value={state?.categoryFilter}
             >
+              <option value="all">All</option>
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
               <option value="dinner">Dinner</option>

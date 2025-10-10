@@ -7,6 +7,7 @@ const initialState = {
   sortDirection: 'asc',
   sortField: 'title',
   recipeToEdit: null,
+  filterCategory: '',
 };
 
 const actions = {
@@ -32,6 +33,7 @@ const actions = {
   // change query string
   changeQueryString: 'changeQueryString',
   modalOpen: 'modalOpen',
+  changeCategory: 'changeCategory',
 };
 
 function reducer(state = initialState, action) {
@@ -142,6 +144,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         queryString: action.queryString,
+      };
+
+    case actions.changeCategory:
+      return {
+        ...state,
+        filterCategory: action.filterCategory,
       };
   }
 }

@@ -24,19 +24,41 @@ function App() {
   const encodeUrl = useCallback(() => {
     const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
     let recordId = state?.recipeToEdit?.id || '';
-    let searchQuery = '';
-    let sortQuery = `sort[0][field]=${state.sortField}&sort[0][direction]=${state.sortDirection}`;
-    if (state.queryString) {
-      searchQuery = `&filterByFormula=SEARCH("${state.queryString}",+title)`;
+    // Construct filter formula
+    const filterFormula = (() => {
+      const parts = [];
+      if (state.queryString) {
+        parts.push(`SEARCH("${state.queryString}", {title})`);
+      }
+      if (state.filterCategory) {
+        parts.push(`{category} = "${state.filterCategory}"`);
+      }
+      return parts.length > 1 ? `AND(${parts.join(', ')})` : parts[0] || '';
+    })();
+
+    // Construct query params
+    const params = new URLSearchParams();
+    if (!recordId) {
+      // only apply sorting for list view
+      params.set('sort[0][field]', state.sortField);
+      params.set('sort[0][direction]', state.sortDirection);
     }
+    if (filterFormula) {
+      params.append('filterByFormula', filterFormula);
+    }
+
+    const queryParams = params.toString();
+
+    // Return final URL
     return recordId
-      ? encodeURI(`${url}/${recordId}?${sortQuery}${searchQuery}`)
-      : encodeURI(`${url}?${sortQuery}${searchQuery}`);
+      ? `${url}/${recordId}?${queryParams}`
+      : `${url}?${queryParams}`;
   }, [
     state?.sortField,
     state?.sortDirection,
     state?.queryString,
     state?.recipeToEdit,
+    state.filterCategory,
   ]);
 
   const currentYear = new Date().getFullYear();
@@ -75,7 +97,12 @@ function App() {
       }
     };
     fetchRecipes();
-  }, [state?.sortField, state?.sortDirection, state?.queryString]);
+  }, [
+    state?.sortField,
+    state?.sortDirection,
+    state?.queryString,
+    state.filterCategory,
+  ]);
 
   const addRecipe = async (newRecipe) => {
     const payload = createPayload(newRecipe);
