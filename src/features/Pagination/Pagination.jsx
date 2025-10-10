@@ -29,14 +29,21 @@ export default function Pagination({
       });
     }
   };
-
   return (
     <div className={styles.paginationControls}>
-      <Button title="Previous" />
+      <Button
+        title="Previous"
+        disabled={currentPage === 1}
+        onClickHandler={handlePreviousPage}
+      />
       <span>
         Page {currentPage} of {totalPages}
       </span>
-      <Button title="Next" />
+      <Button
+        title="Next"
+        disabled={currentPage === totalPages}
+        onClickHandler={handleNextPage}
+      />
     </div>
   );
 }
