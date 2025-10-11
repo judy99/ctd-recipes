@@ -141,17 +141,17 @@ export default function RecipeForm({
             onChange={handleFileChange}
             className={styles.hiddenInput}
           />
-          {imageUrl && (
-            <div className={styles.previewWrapper}>
-              <h4>Image Preview:</h4>
-              <img
-                src={imageUrl}
-                alt="Selected"
-                className={styles.imagePreview}
-              />
-              {/* <p className={styles.imageUrl}>{imageUrl}</p> */}
-            </div>
-          )}
+          {/* {imageUrl && ( */}
+          <div className={styles.previewWrapper}>
+            {/* <h4>Image Preview:</h4> */}
+            <img
+              src={imageUrl}
+              alt="Recipe image"
+              className={styles.imagePreview}
+            />
+            {/* <p className={styles.imageUrl}>{imageUrl}</p> */}
+          </div>
+          {/* )} */}
         </div>
         <div className={styles.formItem}>
           <TextInputWithLabel
@@ -191,6 +191,7 @@ export default function RecipeForm({
         </div>
         <div className={styles.formItem}>
           <TextareaWithLabel
+            className={styles.notes}
             labelText="Notes:"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}

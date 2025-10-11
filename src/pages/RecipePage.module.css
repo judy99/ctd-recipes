@@ -34,6 +34,11 @@
   line-height: 1.5rem;
 }
 
+.recipeSource h3 {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 @media screen and (max-width: 960px) {
   .recipeMain {
     flex-wrap: wrap;

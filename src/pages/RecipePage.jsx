@@ -1,4 +1,3 @@
-// TODO
 import { useParams } from 'react-router';
 import styles from './RecipePage.module.css';
 import Button from '../shared/Button';
@@ -9,8 +8,6 @@ import { useRecipeContext } from '../RecipeContext';
 export default function RecipePage() {
   const { id } = useParams();
   const { state, dispatch } = useRecipeContext();
-
-  console.log('state RecipePage: ', state);
 
   const recipe = state.recipes?.find((r) => r.id == id);
   return (
@@ -49,14 +46,18 @@ export default function RecipePage() {
             <h3>Method: </h3>
             {recipe?.method}
           </div>
-          <div>
-            <h3>Notes: </h3>
-            {recipe?.notes}
-          </div>
-          <div>
-            <h3>Source: </h3>
-            {recipe?.source}
-          </div>
+          {recipe?.notes && (
+            <div>
+              <h3>Notes: </h3>
+              {recipe?.notes}
+            </div>
+          )}
+          {recipe?.source && (
+            <div className={styles.recipeSource}>
+              <h3>Source: </h3>
+              {recipe?.source}
+            </div>
+          )}
         </div>
       </div>
     </>
