@@ -4,13 +4,14 @@ import Pagination from '../Pagination/Pagination';
 import { useSearchParams, useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { useRecipeContext } from '../../RecipeContext';
+import { ITEMS_PER_PAGE } from '../../shared/constants';
 
 function RecipeList() {
   const { state } = useRecipeContext();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const itemsPerPage = 2;
+  const itemsPerPage = ITEMS_PER_PAGE;
   let currentPage = parseInt(searchParams.get('page') || 1, 10);
   const indexOfFirstRecipe = (currentPage - 1) * itemsPerPage;
   const slicedRecipes = state.recipes.slice(
@@ -34,7 +35,7 @@ function RecipeList() {
   }, [currentPage, totalPages, navigate]);
 
   // if we search and nothing found
-  if (state.queryString && !slicedRecipes.length) {
+  if (state.queryString || (state.filterCategory && !slicedRecipes.length)) {
     return <p>{'Nothing found...'}</p>;
   }
 
@@ -56,7 +57,7 @@ function RecipeList() {
     </>
   ) : (
     // if recipe list is empty
-    <p>{'Add recipe to get started'}</p>
+    <p>{'Your recipe book is empty. Add recipe to get started...'}</p>
   );
 }
 

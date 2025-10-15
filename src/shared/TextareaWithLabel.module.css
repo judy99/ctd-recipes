@@ -16,6 +16,8 @@
   box-sizing: border-box;
   resize: none;
   border-radius: 8px;
-  max-width: 600px;
-  min-height: 100px;
+}
+
+.error {
+  border: 1px solid red;
 }

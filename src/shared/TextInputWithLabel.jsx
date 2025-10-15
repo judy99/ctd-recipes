@@ -6,6 +6,7 @@ function TextInputWithLabel({
   ref,
   value,
   placeholder,
+  error,
 }) {
   return (
     <div className={styles.textInputWithLabel}>
@@ -13,6 +14,7 @@ function TextInputWithLabel({
         {labelText}
       </label>
       <input
+        className={`${styles.inputText} ${error && styles.error} `}
         type="text"
         id={elementId}
         onChange={onChange}

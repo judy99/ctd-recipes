@@ -86,6 +86,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isSaving: true,
+        isLoading: true,
       };
 
     case actions.endRequest:

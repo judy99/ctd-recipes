@@ -19,6 +19,7 @@
 
 .recipeIngredients {
   padding: 0px 25px 10px 0px;
+  min-width: 200px;
 }
 
 .recipeTitle {
