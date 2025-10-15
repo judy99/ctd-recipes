@@ -35,7 +35,7 @@ function RecipeList() {
   }, [currentPage, totalPages, navigate]);
 
   // if we search and nothing found
-  if (state.queryString || (state.filterCategory && !slicedRecipes.length)) {
+  if ((state.queryString || state.filterCategory) && !slicedRecipes.length) {
     return <p>{'Nothing found...'}</p>;
   }
 
