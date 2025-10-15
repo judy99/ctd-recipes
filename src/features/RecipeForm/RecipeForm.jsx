@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './RecipeForm.module.css';
 import TextInputWithLabel from '../../shared/TextInputWithLabel';
 import TextareaWithLabel from '../../shared/TextareaWithLabel';
-import { DEFAULT_PHOTO, DEFAULT_CATEGORY } from '../../shared/constants';
+import { DEFAULT_PHOTO_URL, DEFAULT_CATEGORY } from '../../shared/constants';
 import Button from '../../shared/Button';
 import { useRecipeContext } from '../../RecipeContext';
 
@@ -18,7 +18,7 @@ export default function RecipeForm({
   const [notes, setNotes] = useState('');
   const [source, setSource] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(DEFAULT_PHOTO);
+  const [imageUrl, setImageUrl] = useState(DEFAULT_PHOTO_URL);
   const [errors, setErrors] = useState({ title: '', method: '' });
   const { state, dispatch } = useRecipeContext();
 
@@ -96,7 +96,7 @@ export default function RecipeForm({
       setMethod(recipeToEdit.method || '');
       setNotes(recipeToEdit.notes || '');
       setSource(recipeToEdit.source || '');
-      setImageUrl(recipeToEdit.urlCloudinary || DEFAULT_PHOTO);
+      setImageUrl(recipeToEdit.urlCloudinary || DEFAULT_PHOTO_URL);
     }
   }, [recipeToEdit]);
 
@@ -126,21 +126,8 @@ export default function RecipeForm({
       addRecipe(recipeData);
     }
 
-    // Optionally reset the form
-    setTitle('');
-    setCategory('');
-    setIngredients('');
-    setMethod('');
-    setNotes('');
-    setSource('');
-    setImageFile(null);
-
     handleCancel();
   };
-
-  // useEffect(() => {
-  //   validate();
-  // }, [title, method, validate]);
 
   return (
     <div>
@@ -180,7 +167,6 @@ export default function RecipeForm({
               setTitle(e.target.value);
             }}
             error={errors.title}
-            // placeholder={'Enter a recipe title...'}
           />
         </div>
         <div className={styles.category}>

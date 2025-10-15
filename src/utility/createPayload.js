@@ -18,15 +18,6 @@ export function createPayload({
       urlCloudinary,
     },
   };
-
-  // if (id !== undefined) {
-  //   record.id = id;
-  // }
-
-  // if (photoUrl === undefined) {
-  //   record.fields.isCompleted = false;
-  // }
-
   return {
     records: [record],
   };

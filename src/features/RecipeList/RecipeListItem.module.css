@@ -21,58 +21,6 @@
   object-fit: cover;
 }
 
-.recipe__tooltip {
-  padding: 11px 25px;
-  background: #ffffff;
-  box-shadow: 0px 10px 22px rgba(59, 74, 116, 0.1);
-  border-radius: 10px;
-  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  text-align: center;
-  height: 40px;
-  overflow: hidden;
-  box-sizing: border-box;
-  white-space: nowrap;
-  display: none;
-}
-
-.recipe__tooltip_hidden {
-  visibility: hidden;
-}
-
-.recipe__tooltip-keyword {
-  display: block;
-}
-
-.recipe__icon-save_normal:hover {
-  background-image: url(../../images/compressed/save-hover.png);
-}
-
-.btn-recipe {
-  background-color: #ffffff;
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-  border: none;
-  margin-left: 5px;
-  outline: none;
-}
-
-.btn-recipe:hover {
-  cursor: pointer;
-}
-
-.btn-recipe:hover + .recipe__tooltip {
-  display: block;
-  position: absolute;
-  right: 45px;
-}
-
 .recipeContent {
   padding: 0 10px 10px;
   display: flex;

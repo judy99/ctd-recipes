@@ -1,6 +1,4 @@
-// TODO
 import { useState, useCallback, useEffect } from 'react';
-
 import { getOptions } from './utility/getOptions';
 import Header from './shared/Header';
 import styles from './App.module.css';
@@ -23,8 +21,11 @@ function App() {
 
   const encodeUrl = useCallback(() => {
     const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+
     let recordId = state?.recipeToEdit?.id || '';
-    // Construct filter formula
+    if (recordId) return `${url}/${recordId}`;
+
+    // construct filter formula
     const filterFormula = (() => {
       const parts = [];
       if (state.queryString) {
@@ -38,21 +39,17 @@ function App() {
 
     // Construct query params
     const params = new URLSearchParams();
-    if (!recordId) {
-      // only apply sorting for list view
-      params.set('sort[0][field]', state.sortField);
-      params.set('sort[0][direction]', state.sortDirection);
-    }
+    params.set('sort[0][field]', state.sortField);
+    params.set('sort[0][direction]', state.sortDirection);
+
     if (filterFormula) {
       params.append('filterByFormula', filterFormula);
     }
 
     const queryParams = params.toString();
 
-    // Return final URL
-    return recordId
-      ? `${url}/${recordId}?${queryParams}`
-      : `${url}?${queryParams}`;
+    // final URL
+    return `${url}?${queryParams}`;
   }, [
     state?.sortField,
     state?.sortDirection,
@@ -102,6 +99,9 @@ function App() {
     state?.sortDirection,
     state?.queryString,
     state.filterCategory,
+    dispatch,
+    encodeUrl,
+    token,
   ]);
 
   const addRecipe = async (newRecipe) => {
@@ -129,13 +129,12 @@ function App() {
     );
     const payload = createPayload(updatedRecipe);
     const options = getOptions('PATCH', token, payload.records[0]);
-    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}/${updatedRecipe.id}`;
 
     // optimistic update
     dispatch({ type: 'updateRecipe', editedRecipe: updatedRecipe });
 
     try {
-      const resp = await fetch(url, options);
+      const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) {
         throw new Error(resp.message);
       }
@@ -152,17 +151,7 @@ function App() {
       <Header title={title} />
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                // recipeState={state}
-                // dispatch={dispatch}
-                addRecipe={addRecipe}
-                // recipesActions={recipesActions}
-              />
-            }
-          />
+          <Route path="/" element={<HomePage addRecipe={addRecipe} />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />

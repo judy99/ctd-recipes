@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import TextInputWithLabel from '../../shared/TextInputWithLabel';
 import Button from '../../shared/Button';
-import styles from './RecipeViewForm.module.css';
+import styles from './RecipeFilterForm.module.css';
 import { useRecipeContext } from '../../RecipeContext';
 
-const RecipeViewForm = () => {
+const RecipeFilterForm = () => {
   const { state, dispatch } = useRecipeContext();
 
   const [localQueryString, setLocalQueryString] = useState(state?.queryString);
@@ -46,7 +46,7 @@ const RecipeViewForm = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form id="recipeViewForm" onSubmit={preventRefresh}>
+      <form id="recipeFilterForm" onSubmit={preventRefresh}>
         <div className={styles.search}>
           <TextInputWithLabel
             elementId={'recipeSearch'}
@@ -113,4 +113,4 @@ const RecipeViewForm = () => {
   );
 };
 
-export default RecipeViewForm;
+export default RecipeFilterForm;

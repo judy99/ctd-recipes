@@ -1,15 +1,14 @@
-// TODO
 import { Link } from 'react-router';
 import styles from './RecipeListItem.module.css';
 import CategoryBadge from '../../shared/CategoryBadge';
-import { DEFAULT_PHOTO } from '../../shared/constants';
+import { DEFAULT_PHOTO_URL } from '../../shared/constants';
 
 function RecipeListItem({ recipe }) {
   return (
     <li className={styles.recipeItem}>
       <img
         className={styles.recipePhoto}
-        src={recipe.urlCloudinary || DEFAULT_PHOTO}
+        src={recipe.urlCloudinary || DEFAULT_PHOTO_URL}
         alt={recipe.title}
       />
       <div className={styles.recipeContent}>

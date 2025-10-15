@@ -1,4 +1,3 @@
-// TODO
 import Button from '../../shared/Button';
 import styles from './Pagination.module.css';
 

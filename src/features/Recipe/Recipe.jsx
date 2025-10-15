@@ -1,7 +1,7 @@
 import styles from './Recipe.module.css';
 import Button from '../../shared/Button';
 import CategoryBadge from '../../shared/CategoryBadge';
-import { DEFAULT_PHOTO } from '../../shared/constants';
+import { DEFAULT_PHOTO_URL } from '../../shared/constants';
 
 export default function Recipe({ recipe, dispatch }) {
   return (
@@ -10,7 +10,7 @@ export default function Recipe({ recipe, dispatch }) {
       <div className={styles.recipeHeader}>
         <img
           className={styles.recipePhoto}
-          src={recipe?.urlCloudinary || DEFAULT_PHOTO}
+          src={recipe?.urlCloudinary || DEFAULT_PHOTO_URL}
           alt={recipe?.title}
         />
 
