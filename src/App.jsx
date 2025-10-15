@@ -28,7 +28,7 @@ function App() {
     const filterFormula = (() => {
       const parts = [];
       if (state.queryString) {
-        parts.push(`SEARCH("${state.queryString}", {title})`);
+        parts.push(`SEARCH(LOWER("${state.queryString}"), LOWER({title}))`);
       }
       if (state.filterCategory) {
         parts.push(`{category} = "${state.filterCategory}"`);
