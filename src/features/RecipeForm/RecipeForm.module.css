@@ -1,6 +1,18 @@
+#recipeForm {
+  max-width: 600px;
+  width: 100%;
+  /* min-height: 100px; */
+}
+
 .category {
   margin-top: 10px;
   font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.formTitle {
+  text-align: center;
+  margin: 3px 0;
 }
 
 .buttonWrapper {
@@ -51,6 +63,7 @@
 
 .imagePreview {
   overflow: hidden;
+  height: 150px;
 }
 
 .notes {

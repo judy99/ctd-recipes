@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './RecipeForm.module.css';
 import TextInputWithLabel from '../../shared/TextInputWithLabel';
 import TextareaWithLabel from '../../shared/TextareaWithLabel';
+import { DEFAULT_PHOTO, DEFAULT_CATEGORY } from '../../shared/constants';
 import Button from '../../shared/Button';
 import { useRecipeContext } from '../../RecipeContext';
 
@@ -11,20 +12,30 @@ export default function RecipeForm({
   recipeToEdit = null,
 }) {
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [ingredients, setIngredients] = useState('');
   const [method, setMethod] = useState('');
   const [notes, setNotes] = useState('');
   const [source, setSource] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-  // const [cloudinaryImageUrl, setCloudinaryImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(DEFAULT_PHOTO);
+  const [errors, setErrors] = useState({ title: '', method: '' });
+  const { state, dispatch } = useRecipeContext();
 
-  const { dispatch } = useRecipeContext();
-
-  // Access environment variables securely
   const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  const validate = () => {
+    const newErrors = {};
+    if (!title.trim()) {
+      newErrors.title = 'Title is required.';
+    }
+    if (!method.trim()) {
+      newErrors.method = 'Method is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleCancel = () =>
     dispatch({ type: 'modalOpen', isModalOpen: false });
@@ -35,9 +46,10 @@ export default function RecipeForm({
 
     setImageFile(e.target.files[0]);
     setImageUrl(URL.createObjectURL(file));
-    // setImageUrl(''); // Clear previous image URL
   };
 
+  // remove a temporary URL (for file preview) from memory
+  // to avoid a memory leak
   useEffect(() => {
     return () => {
       if (imageUrl) {
@@ -51,6 +63,7 @@ export default function RecipeForm({
     formData.append('file', imageFile);
     formData.append('upload_preset', UPLOAD_PRESET);
     try {
+      dispatch({ type: 'startRequest' });
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`,
         {
@@ -63,16 +76,14 @@ export default function RecipeForm({
         throw new Error('Cloudinary upload failed.');
       }
       const data = await response.json();
-      console.log('data.secure_url:::', data.secure_url);
-      // setCloudinaryImageUrl(data.secure_url); // Store the public URL of the uploaded image
-      // console.log('cloudinaryImageUrl:::', cloudinaryImageUrl);
-      // setLoading(false);
-      alert('Image uploaded successfully!');
       return data.secure_url;
     } catch (error) {
-      console.error('Upload Error:', error);
-      // setLoading(false);
-      alert('Failed to upload image.');
+      dispatch({
+        type: 'setLoadError',
+        errorMessage: error.message,
+      });
+    } finally {
+      dispatch({ type: 'endRequest' });
     }
   };
 
@@ -80,23 +91,24 @@ export default function RecipeForm({
   useEffect(() => {
     if (recipeToEdit) {
       setTitle(recipeToEdit.title || '');
-      setCategory(recipeToEdit.category || '');
+      setCategory(recipeToEdit.category || DEFAULT_CATEGORY);
       setIngredients(recipeToEdit.ingredients || '');
       setMethod(recipeToEdit.method || '');
       setNotes(recipeToEdit.notes || '');
       setSource(recipeToEdit.source || '');
-      setImageUrl(recipeToEdit.urlCloudinary || '');
-      // setImagePreviewUrl(recipeToEdit.imageUrl || null);
-      // optionally preload image if available
+      setImageUrl(recipeToEdit.urlCloudinary || DEFAULT_PHOTO);
     }
   }, [recipeToEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const urlCloudinary = await cloudinaryUpload();
+    if (!validate()) return;
 
-    console.log('urlCloudinary:', urlCloudinary);
+    let urlCloudinary = imageUrl;
+    // upload to Cloudinary only if user chooses their own image
+    // otherwise - use default image which is already uploaded
+    if (imageFile) urlCloudinary = await cloudinaryUpload();
 
     const recipeData = {
       title,
@@ -109,7 +121,7 @@ export default function RecipeForm({
     };
 
     if (recipeToEdit && updateRecipe) {
-      updateRecipe({ id: recipeToEdit.id, ...recipeData }); // Use recipe ID
+      updateRecipe({ id: recipeToEdit.id, ...recipeData });
     } else {
       addRecipe(recipeData);
     }
@@ -126,9 +138,15 @@ export default function RecipeForm({
     handleCancel();
   };
 
+  // useEffect(() => {
+  //   validate();
+  // }, [title, method, validate]);
+
   return (
     <div>
-      <h2>{`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe</h2>
+      <h2 className={styles.formTitle}>
+        {`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe
+      </h2>
       <form id="recipeForm" onSubmit={(e) => e.preventDefault()}>
         <div className={styles.formUploadFile}>
           <label htmlFor="imageUpload" className={styles.uploadLabel}>
@@ -141,24 +159,28 @@ export default function RecipeForm({
             onChange={handleFileChange}
             className={styles.hiddenInput}
           />
-          {/* {imageUrl && ( */}
           <div className={styles.previewWrapper}>
-            {/* <h4>Image Preview:</h4> */}
             <img
               src={imageUrl}
               alt="Recipe image"
               className={styles.imagePreview}
             />
-            {/* <p className={styles.imageUrl}>{imageUrl}</p> */}
           </div>
-          {/* )} */}
         </div>
         <div className={styles.formItem}>
           <TextInputWithLabel
             labelText="Title:"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={'Enter a recipe title...'}
+            onChange={(e) => {
+              if (e.target.value) {
+                setErrors({ ...errors, title: '' });
+              } else {
+                setErrors({ ...errors, title: 'Title is required.' });
+              }
+              setTitle(e.target.value);
+            }}
+            error={errors.title}
+            // placeholder={'Enter a recipe title...'}
           />
         </div>
         <div className={styles.category}>
@@ -171,44 +193,53 @@ export default function RecipeForm({
             <option value="breakfast">Breakfast</option>
             <option value="lunch">Lunch</option>
             <option value="dinner">Dinner</option>
+            <option value="dessert">Dessert</option>
           </select>
         </div>
         <div className={styles.formItem}>
           <TextareaWithLabel
-            labelText="Ingredients:"
+            labelText="Ingredients (optional):"
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            placeholder={'Enter ingredients...'}
           />
         </div>
         <div className={styles.formItem}>
           <TextareaWithLabel
             labelText="Method:"
             value={method}
-            onChange={(e) => setMethod(e.target.value)}
-            placeholder={'Enter a method...'}
+            onChange={(e) => {
+              if (e.target.value) {
+                setErrors({ ...errors, method: '' });
+              } else {
+                setErrors({ ...errors, method: 'Method is required.' });
+              }
+              setMethod(e.target.value);
+            }}
+            error={errors.method}
           />
         </div>
         <div className={styles.formItem}>
           <TextareaWithLabel
             className={styles.notes}
-            labelText="Notes:"
+            labelText="Notes (optional):"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder={'Enter notes...'}
           />
         </div>
         <div className={styles.formItem}>
           <TextInputWithLabel
-            labelText="Source:"
+            labelText="Source (optional):"
             value={source}
             onChange={(e) => setSource(e.target.value)}
-            placeholder={'Enter source...'}
           />
         </div>
         <div className={styles.buttonWrapper}>
           <Button title="Cancel" onClickHandler={handleCancel} />
-          <Button title="Save" onClickHandler={handleSubmit} />
+          <Button
+            disabled={state.isSaving}
+            title={state.isSaving ? 'Saving...' : 'Save'}
+            onClickHandler={handleSubmit}
+          />
         </div>
       </form>
     </div>

@@ -12,9 +12,6 @@ export default function Modal({ children }) {
   return (
     <div className={styles.modalOverlay} onClick={handleModalClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeBtn} onClick={handleModalClose}>
-          ×
-        </button>
         {children}
       </div>
     </div>
