@@ -1,10 +1,8 @@
-// TODO
 import { useState, useEffect } from 'react';
-import TextInputWithLabel from '../shared/TextInputWithLabel';
-// import { actions as todoActions } from '../reducers/todos.reducer';
-import Button from '../shared/Button';
+import TextInputWithLabel from '../../shared/TextInputWithLabel';
+import Button from '../../shared/Button';
 import styles from './RecipeViewForm.module.css';
-import { useRecipeContext } from '../RecipeContext';
+import { useRecipeContext } from '../../RecipeContext';
 
 const RecipeViewForm = () => {
   const { state, dispatch } = useRecipeContext();
@@ -100,7 +98,7 @@ const RecipeViewForm = () => {
           </div>
         </div>
       </form>
-      <div>
+      <div className={styles.addRecipeButton}>
         <Button
           title="Add Recipe"
           onClickHandler={() => {

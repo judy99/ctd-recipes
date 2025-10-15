@@ -1,5 +1,5 @@
 .wrapper {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px 10px;
@@ -41,4 +41,25 @@ select {
 
 .search > div {
   flex-grow: 1;
+}
+
+.addRecipeButton {
+  align-self: flex-end;
+}
+
+@media screen and (max-width: 840px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  form {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .sortWrapper {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
