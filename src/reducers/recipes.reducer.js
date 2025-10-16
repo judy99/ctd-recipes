@@ -7,7 +7,7 @@ const initialState = {
   sortDirection: 'asc',
   sortField: 'title',
   recipeToEdit: null,
-  filterCategory: '',
+  filterCategory: 'all',
 };
 
 const actions = {
@@ -34,6 +34,7 @@ const actions = {
   changeQueryString: 'changeQueryString',
   modalOpen: 'modalOpen',
   changeCategory: 'changeCategory',
+  clearFilters: 'clearFilters',
 };
 
 function reducer(state = initialState, action) {
@@ -50,11 +51,21 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isModalOpen: action.isModalOpen,
-        recipeToEdit: action.recipeToEdit,
+        recipeToEdit: action.recipeToEdit || null,
+      };
+
+    case actions.clearFilters:
+      console.log('clearFilters...');
+      return {
+        ...state,
+        queryString: '',
+        sortDirection: 'asc',
+        sortField: 'title',
+        filterCategory: 'all',
       };
 
     case actions.loadRecipes:
-      const recipes = action.records.map((record) => {
+      const recipes = action.records?.map((record) => {
         const item = {
           id: record.id,
           ...record.fields,
@@ -124,6 +135,7 @@ function reducer(state = initialState, action) {
         ...state,
         recipes: [...updatedRecipesList],
         errorMessage: action.errorMessage ? action.errorMessage : '',
+        // recipeToEdit: null,
       };
       return {
         ...updatedState,

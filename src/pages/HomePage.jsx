@@ -9,7 +9,11 @@ export default function HomePage({ addRecipe }) {
 
   return (
     <>
-      <RecipeFilterForm addRecipe={addRecipe} />
+      <RecipeFilterForm
+        addRecipe={addRecipe}
+        // to force re-render to clear search and filters
+        key={state.isModalOpen ? 'open' : 'closed'}
+      />
       {state?.errorMessage?.length ? (
         <div className={styles.errorWrapper}>
           <div className={styles.error}>

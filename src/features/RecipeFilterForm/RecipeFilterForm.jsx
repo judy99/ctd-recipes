@@ -21,10 +21,9 @@ const RecipeFilterForm = () => {
   };
 
   const handleChangeCategory = (e) => {
-    const cat = e.target.value;
     dispatch({
       type: 'changeCategory',
-      filterCategory: cat !== 'all' ? cat : '',
+      filterCategory: e.target.value,
     });
   };
 
@@ -102,6 +101,7 @@ const RecipeFilterForm = () => {
         <Button
           title="Add Recipe"
           onClickHandler={() => {
+            dispatch({ type: 'clearFilters' });
             dispatch({
               type: 'modalOpen',
               isModalOpen: true,

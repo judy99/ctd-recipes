@@ -19,44 +19,47 @@ function App() {
 
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
-  const encodeUrl = useCallback(() => {
-    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+  const encodeUrl = useCallback(
+    (id) => {
+      const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 
-    let recordId = state?.recipeToEdit?.id || '';
-    if (recordId) return `${url}/${recordId}`;
+      if (id) return `${url}/${id}`;
 
-    // construct filter formula
-    const filterFormula = (() => {
-      const parts = [];
-      if (state.queryString) {
-        parts.push(`SEARCH(LOWER("${state.queryString}"), LOWER({title}))`);
+      // construct filter formula
+      const filterFormula = (() => {
+        const parts = [];
+        if (state.queryString) {
+          parts.push(`SEARCH(LOWER("${state.queryString}"), LOWER({title}))`);
+        }
+
+        if (state.filterCategory !== 'all') {
+          parts.push(`{category} = "${state.filterCategory}"`);
+        }
+
+        return parts.length > 1 ? `AND(${parts.join(', ')})` : parts[0] || '';
+      })();
+
+      // Construct query params
+      const params = new URLSearchParams();
+      params.set('sort[0][field]', state.sortField);
+      params.set('sort[0][direction]', state.sortDirection);
+
+      if (filterFormula) {
+        params.append('filterByFormula', filterFormula);
       }
-      if (state.filterCategory) {
-        parts.push(`{category} = "${state.filterCategory}"`);
-      }
-      return parts.length > 1 ? `AND(${parts.join(', ')})` : parts[0] || '';
-    })();
 
-    // Construct query params
-    const params = new URLSearchParams();
-    params.set('sort[0][field]', state.sortField);
-    params.set('sort[0][direction]', state.sortDirection);
+      const queryParams = params.toString();
 
-    if (filterFormula) {
-      params.append('filterByFormula', filterFormula);
-    }
-
-    const queryParams = params.toString();
-
-    // final URL
-    return `${url}?${queryParams}`;
-  }, [
-    state?.sortField,
-    state?.sortDirection,
-    state?.queryString,
-    state?.recipeToEdit,
-    state.filterCategory,
-  ]);
+      // final URL
+      return `${url}?${queryParams}`;
+    },
+    [
+      state?.sortField,
+      state?.sortDirection,
+      state?.queryString,
+      state.filterCategory,
+    ]
+  );
 
   const currentYear = new Date().getFullYear();
 
@@ -80,7 +83,9 @@ function App() {
         const url = encodeUrl();
         const resp = await fetch(url, options);
         if (!resp.ok) {
-          throw new Error(resp.message || 'Something went wrong!');
+          throw new Error(
+            resp.message || 'An error occurred. Please try again.'
+          );
         }
         const { records } = await resp.json();
         dispatch({ type: 'loadRecipes', records });
@@ -110,7 +115,8 @@ function App() {
     try {
       dispatch({ type: 'startRequest' });
       const resp = await fetch(encodeUrl(), options);
-      if (!resp.ok) throw new Error(resp.message || 'Something went wrong!');
+      if (!resp.ok)
+        throw new Error(resp.message || 'An error occurred. Please try again.');
       const { records } = await resp.json();
       dispatch({ type: 'addRecipe', records });
     } catch (error) {
@@ -132,11 +138,10 @@ function App() {
 
     // optimistic update
     dispatch({ type: 'updateRecipe', editedRecipe: updatedRecipe });
-
     try {
-      const resp = await fetch(encodeUrl(), options);
+      const resp = await fetch(encodeUrl(updatedRecipe.id), options);
       if (!resp.ok) {
-        throw new Error(resp.message);
+        throw new Error(resp.message || 'An error occurred. Please try again.');
       }
     } catch (error) {
       dispatch({

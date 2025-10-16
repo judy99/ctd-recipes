@@ -5,6 +5,7 @@ import { useSearchParams, useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { useRecipeContext } from '../../RecipeContext';
 import { ITEMS_PER_PAGE } from '../../shared/constants';
+import Loader from '../../shared/Loader/Loader';
 
 function RecipeList() {
   const { state } = useRecipeContext();
@@ -40,7 +41,7 @@ function RecipeList() {
   }
 
   return state.isLoading ? (
-    <p>{'Recipe list loading...'}</p>
+    <Loader />
   ) : slicedRecipes.length ? (
     <>
       <ul className={styles.recipeList}>

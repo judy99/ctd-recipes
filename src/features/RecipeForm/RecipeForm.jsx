@@ -5,6 +5,7 @@ import TextareaWithLabel from '../../shared/TextareaWithLabel';
 import { DEFAULT_PHOTO_URL, DEFAULT_CATEGORY } from '../../shared/constants';
 import Button from '../../shared/Button';
 import { useRecipeContext } from '../../RecipeContext';
+import Loader from '../../shared/Loader/Loader';
 
 export default function RecipeForm({
   addRecipe,
@@ -131,6 +132,7 @@ export default function RecipeForm({
 
   return (
     <div>
+      {state.isLoading && <Loader />}
       <h2 className={styles.formTitle}>
         {`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe
       </h2>
