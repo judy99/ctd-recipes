@@ -39,7 +39,7 @@ function App() {
         return parts.length > 1 ? `AND(${parts.join(', ')})` : parts[0] || '';
       })();
 
-      // Construct query params
+      // construct query params
       const params = new URLSearchParams();
       params.set('sort[0][field]', state.sortField);
       params.set('sort[0][direction]', state.sortDirection);
@@ -50,7 +50,6 @@ function App() {
 
       const queryParams = params.toString();
 
-      // final URL
       return `${url}?${queryParams}`;
     },
     [

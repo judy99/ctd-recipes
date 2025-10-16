@@ -22,3 +22,10 @@
   z-index: 1000;
   position: relative;
 }
+
+@media screen and (max-width: 490px) {
+  .modalContent {
+    min-width: auto;
+    width: 95%;
+  }
+}

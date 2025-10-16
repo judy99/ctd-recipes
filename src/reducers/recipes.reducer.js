@@ -32,8 +32,11 @@ const actions = {
   changeSortField: 'changeSortField',
   // change query string
   changeQueryString: 'changeQueryString',
+  // switch Modal state
   modalOpen: 'modalOpen',
+  // change meal type in RecipesViewForm
   changeCategory: 'changeCategory',
+  // set filters to initial state in RecipesViewForm
   clearFilters: 'clearFilters',
 };
 
@@ -55,7 +58,6 @@ function reducer(state = initialState, action) {
       };
 
     case actions.clearFilters:
-      console.log('clearFilters...');
       return {
         ...state,
         queryString: '',
@@ -135,7 +137,6 @@ function reducer(state = initialState, action) {
         ...state,
         recipes: [...updatedRecipesList],
         errorMessage: action.errorMessage ? action.errorMessage : '',
-        // recipeToEdit: null,
       };
       return {
         ...updatedState,

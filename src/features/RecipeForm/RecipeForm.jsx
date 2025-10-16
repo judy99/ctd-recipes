@@ -88,7 +88,7 @@ export default function RecipeForm({
     }
   };
 
-  // If editing, populate form with recipe data
+  // if editing, populate form with recipe data
   useEffect(() => {
     if (recipeToEdit) {
       setTitle(recipeToEdit.title || '');
@@ -136,7 +136,7 @@ export default function RecipeForm({
       <h2 className={styles.formTitle}>
         {`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe
       </h2>
-      <form id="recipeForm" onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className={styles.formUploadFile}>
           <label htmlFor="imageUpload" className={styles.uploadLabel}>
             {imageUrl ? 'Change Image' : 'Choose Image'}

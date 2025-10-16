@@ -1,4 +1,6 @@
 import styles from './TextareaWithLabel.module.css';
+import { MAX_LENGTH_TEXT } from '../shared/constants';
+
 function TextareaWithLabel({
   elementId,
   labelText = '',
@@ -8,14 +10,13 @@ function TextareaWithLabel({
   placeholder,
   error,
 }) {
-  const MAX_LENGTH = 1000; // Define your character limit
   return (
     <div className={styles.textareaWithLabel}>
       <label htmlFor={elementId}>{labelText}</label>
       <textarea
         className={`${styles.textarea} ${error && styles.error} `}
         id={elementId}
-        maxLength={MAX_LENGTH}
+        maxLength={MAX_LENGTH_TEXT}
         onChange={onChange}
         value={value}
         ref={ref}

@@ -9,3 +9,14 @@
   width: 400px;
   margin: auto;
 }
+
+@media screen and (max-width: 623px) {
+  .paginationControls {
+    width: auto;
+    flex-direction: column;
+  }
+  .paginationControls > button,
+  .paginationControls span {
+    margin-bottom: 5px;
+  }
+}
