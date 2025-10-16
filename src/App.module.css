@@ -58,3 +58,17 @@ footer p {
 .notFound {
   text-align: center;
 }
+
+.aboutText {
+  font-size: 1.4em;
+  line-height: 2rem;
+}
+
+.aboutItem {
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+}
+
+.aboutItem span {
+  font-weight: 600;
+}
