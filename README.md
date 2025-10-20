@@ -66,7 +66,7 @@ ctd-recipes/
 ### 1. Clone the Repository
 
 ```
-git clone https://github.com/your-username/ctd-recipes.git
+git clone https://github.com/judy99/ctd-recipes.git
 cd ctd-recipes
 ```
 
