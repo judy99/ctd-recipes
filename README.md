@@ -81,11 +81,9 @@ npm install
 Create a .env file in the root and add the following:
 
 ```
-# Airtable credentials
 VITE_PAT=your_airtable_token
-VITE_AIRTABLE_BASE_ID=your_airtable_base_id
-
-# Cloudinary credentials
+VITE_BASE_ID=your_airtable_base_id
+VITE_TABLE_NAME=your_airtable_base_name
 VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
 VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
