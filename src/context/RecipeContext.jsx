@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer } from 'react';
 import {
   reducer as recipesReducer,
   initialState as initialState,
-} from './reducers/recipes.reducer';
+} from '../reducers/recipes.reducer';
 
 const RecipeContext = createContext();
 

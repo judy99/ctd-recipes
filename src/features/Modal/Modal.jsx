@@ -1,5 +1,5 @@
 import styles from './Modal.module.css';
-import { useRecipeContext } from '../../RecipeContext';
+import { useRecipeContext } from '../../context/RecipeContext';
 
 export default function Modal({ children }) {
   const { state, dispatch } = useRecipeContext();

@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import Button from '../shared/Button';
+import Button from '../shared/Button/Button';
 import styles from '../App.module.css';
 
 export default function NotFound() {

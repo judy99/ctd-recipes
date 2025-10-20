@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import styles from './RecipeForm.module.css';
-import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import TextareaWithLabel from '../../shared/TextareaWithLabel';
+import TextInputWithLabel from '../../shared/TextInputWithLabel/TextInputWithLabel';
+import TextareaWithLabel from '../../shared/TextareaWithLabel/TextareaWithLabel';
 import { DEFAULT_PHOTO_URL, DEFAULT_CATEGORY } from '../../shared/constants';
-import Button from '../../shared/Button';
-import { useRecipeContext } from '../../RecipeContext';
+import Button from '../../shared/Button/Button';
+import { useRecipeContext } from '../../context/RecipeContext';
 import Loader from '../../shared/Loader/Loader';
 
 export default function RecipeForm({
@@ -179,6 +179,7 @@ export default function RecipeForm({
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="breakfast">Breakfast</option>
+            <option value="soup">Soup</option>
             <option value="lunch">Lunch</option>
             <option value="dinner">Dinner</option>
             <option value="dessert">Dessert</option>

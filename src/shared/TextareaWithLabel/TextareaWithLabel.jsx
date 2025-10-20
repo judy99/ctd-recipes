@@ -1,5 +1,5 @@
 import styles from './TextareaWithLabel.module.css';
-import { MAX_LENGTH_TEXT } from '../shared/constants';
+import { MAX_LENGTH_TEXT } from '../constants';
 
 function TextareaWithLabel({
   elementId,

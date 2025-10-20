@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getOptions } from './utility/getOptions';
-import Header from './shared/Header';
+import Header from './shared/Header/Header';
 import styles from './App.module.css';
 import HomePage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
@@ -10,7 +10,7 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { Route, Routes, useLocation } from 'react-router';
 import { createPayload } from './utility/createPayload';
-import { useRecipeContext } from './RecipeContext';
+import { useRecipeContext } from './context/RecipeContext';
 
 function App() {
   const { state, dispatch } = useRecipeContext();

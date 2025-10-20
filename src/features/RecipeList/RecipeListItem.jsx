@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import styles from './RecipeListItem.module.css';
-import CategoryBadge from '../../shared/CategoryBadge';
+import CategoryBadge from '../../shared/CategoryBadge/CategoryBadge';
 import { DEFAULT_PHOTO_URL } from '../../shared/constants';
 
 function RecipeListItem({ recipe }) {

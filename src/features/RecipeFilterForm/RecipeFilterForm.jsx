@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import Button from '../../shared/Button';
+import TextInputWithLabel from '../../shared/TextInputWithLabel/TextInputWithLabel';
+import Button from '../../shared/Button/Button';
 import styles from './RecipeFilterForm.module.css';
-import { useRecipeContext } from '../../RecipeContext';
+import { useRecipeContext } from '../../context/RecipeContext';
 
 const RecipeFilterForm = () => {
   const { state, dispatch } = useRecipeContext();
@@ -90,6 +90,7 @@ const RecipeFilterForm = () => {
             >
               <option value="all">All</option>
               <option value="breakfast">Breakfast</option>
+              <option value="soup">Soup</option>
               <option value="lunch">Lunch</option>
               <option value="dinner">Dinner</option>
               <option value="dessert">Dessert</option>

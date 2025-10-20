@@ -1,6 +1,6 @@
 import styles from './Recipe.module.css';
-import Button from '../../shared/Button';
-import CategoryBadge from '../../shared/CategoryBadge';
+import Button from '../../shared/Button/Button';
+import CategoryBadge from '../../shared/CategoryBadge/CategoryBadge';
 import { DEFAULT_PHOTO_URL } from '../../shared/constants';
 
 export default function Recipe({ recipe, dispatch }) {

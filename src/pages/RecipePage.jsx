@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { useRecipeContext } from '../RecipeContext';
+import { useRecipeContext } from '../context/RecipeContext';
 import Recipe from '../features/Recipe/Recipe';
 
 export default function RecipePage() {

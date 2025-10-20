@@ -3,7 +3,7 @@ import styles from './RecipeList.module.css';
 import Pagination from '../Pagination/Pagination';
 import { useSearchParams, useNavigate } from 'react-router';
 import { useEffect } from 'react';
-import { useRecipeContext } from '../../RecipeContext';
+import { useRecipeContext } from '../../context/RecipeContext';
 import { ITEMS_PER_PAGE } from '../../shared/constants';
 import Loader from '../../shared/Loader/Loader';
 

@@ -1,8 +1,8 @@
 import styles from '../App.module.css';
 import RecipeList from '../features/RecipeList/RecipeList';
-import Button from '../shared/Button';
+import Button from '../shared/Button/Button';
 import RecipeFilterForm from '../features/RecipeFilterForm/RecipeFilterForm';
-import { useRecipeContext } from '../RecipeContext';
+import { useRecipeContext } from '../context/RecipeContext';
 
 export default function HomePage({ addRecipe }) {
   const { state, dispatch } = useRecipeContext();
