@@ -113,6 +113,19 @@ npm run preview
 
 Then open http://localhost:5173 in your browser.
 
+### Using Demo Data (CSV Import)
+
+If you want to quickly populate the app with sample recipes, you can use the provided demo CSV file.
+This will help you see how recipes appear in the app and how Airtable stores them.
+
+1. Go to your Airtable base connected to this project (the one you used for your .env file).
+
+2. In Airtable, open your Recipes table. Click “+ Add or import → CSV file”. Choose the file demo-data.csv (from the root folder of this project).
+
+3. Airtable will automatically create or match the columns (fields).
+
+4. Go to http://localhost:5173 in your browser and refresh a page.
+
 ## Future Improvements:
 
 - Add authentication for multiple users
